@@ -1,4 +1,4 @@
-﻿using Assets.Sources.Misc;
+﻿using Assets.Sources.Entities;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +11,12 @@ namespace Assets.Sources.ScriptableObjects.Cards
 
         public LocationCardSO()
         {
-            cardType = ECardType.Location;
+        }
+
+        public override void InitializedCardWithScriptableObject(GameObject cardBodyGO)
+        {
+            cardBodyGO.AddComponent<Location>();
+            cardBodyGO.GetComponent<Location>().cardSO = this;
         }
     }
 }

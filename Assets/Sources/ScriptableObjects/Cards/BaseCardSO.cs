@@ -1,15 +1,12 @@
-﻿using Assets.Sources.Misc;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Sources.ScriptableObjects.Cards
 {
-    public class BaseCardSO : ScriptableObject
+    public abstract class BaseCardSO : ScriptableObject
     {
         public new string name;
         public string description;
         public Sprite artwork;
-
-        internal ECardType cardType;
 
         //public Dice[] dices
 
@@ -19,5 +16,6 @@ namespace Assets.Sources.ScriptableObjects.Cards
             Debug.Log($"{name} is at Z worldposition {gameObject.transform.position.z}");
         }
 
+        public abstract void InitializedCardWithScriptableObject(GameObject cardBodyGO);
     }
 }

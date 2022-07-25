@@ -1,6 +1,5 @@
 ﻿using Assets.Sources.Display;
 using Assets.Sources.Entities;
-using Assets.Sources.Misc;
 using Assets.Sources.ScriptableObjects.Cards;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,7 +30,7 @@ namespace Assets.Sources.Systems
         public void GenerateRandomCardFromList(List<BaseCardSO> cards)
         {
             var rnd = Random.Range(0, cards.Count);
-            BaseCardSO chosenCard = cards[rnd];
+            var chosenCard = cards[rnd];
             SpawnCard(chosenCard);
         }
 
@@ -51,36 +50,16 @@ namespace Assets.Sources.Systems
         public void SpawnCard(BaseCardSO cardData)
         {
             Debug.Log($"SpawnCard {cardData.name}");
-            CardDisplay cd = cardPrefab.GetComponentInChildren<CardDisplay>();
+            var cd = cardPrefab.GetComponentInChildren<CardDisplay>();
             cd.LoadCardData(cardData);
             cd.cardSO = cardData;
 
 
-            GameObject spawedCardGO = Instantiate(cardPrefab, new Vector3(10f, 10f, -10f), Quaternion.identity);
+            var spawedCardGO = Instantiate(cardPrefab, new Vector3(10f, 10f, -10f), Quaternion.identity);
 
-            //TODO A rendre générique...
-            GameObject cardBodyGO = spawedCardGO.GetComponentInChildren<RectTransform>().Find("Card Body").gameObject;
-
-
-
+            var cardBodyGO = spawedCardGO.GetComponentInChildren<RectTransform>().Find("Card Body").gameObject;
             Destroy(spawedCardGO.GetComponentInChildren<Card>());
-            switch (cd.cardSO.cardType)
-            {
-                case Misc.ECardType.Ressource:
-                    cardBodyGO.AddComponent<Resource>();
-                    cardBodyGO.GetComponent<Resource>().cardSO = (ResourceCardSO)cardData;
-                    break;
-                case ECardType.Follower:
-                    cardBodyGO.AddComponent<Follower>();
-                    cardBodyGO.GetComponent<Follower>().cardSO = (FollowerCardSO)cardData;
-                    break;
-                case Misc.ECardType.Location:
-                    cardBodyGO.AddComponent<Location>();
-                    cardBodyGO.GetComponent<Location>().cardSO = (LocationCardSO)cardData;
-                    break;
-                default:
-                    break;
-            }
+            cardData.InitializedCardWithScriptableObject(cardBodyGO);
 
 
             spawedCardGO.name = cardData.name;

@@ -1,4 +1,4 @@
-﻿using Assets.Sources.Misc;
+﻿using Assets.Sources.Entities;
 using UnityEngine;
 
 namespace Assets.Sources.ScriptableObjects.Cards
@@ -8,7 +8,13 @@ namespace Assets.Sources.ScriptableObjects.Cards
     {
         public FollowerCardSO()
         {
-            cardType = ECardType.Follower;
+        }
+
+
+        public override void InitializedCardWithScriptableObject(GameObject cardBodyGO)
+        {
+            cardBodyGO.AddComponent<Follower>();
+            cardBodyGO.GetComponent<Follower>().cardSO = this;
         }
     }
 }
