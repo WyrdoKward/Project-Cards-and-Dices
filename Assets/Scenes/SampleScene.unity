@@ -583,7 +583,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 42, y: 0, z: -963.9}
+  m_LocalPosition: {x: 42, y: 0, z: -951.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -822,6 +822,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 410871248}
     m_Modifications:
+    - target: {fileID: 1520376300158428884, guid: 7e92315755741584091d006f313e149e, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1520376300158428885, guid: 7e92315755741584091d006f313e149e, type: 3}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1520376300158428889, guid: 7e92315755741584091d006f313e149e, type: 3}
       propertyPath: m_Name
       value: Default follower
@@ -860,6 +868,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1520376300158428890, guid: 7e92315755741584091d006f313e149e, type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1520376300158428890, guid: 7e92315755741584091d006f313e149e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1520376300158428890, guid: 7e92315755741584091d006f313e149e, type: 3}
+      propertyPath: m_LocalScale.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1520376300158428890, guid: 7e92315755741584091d006f313e149e, type: 3}
@@ -936,11 +952,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8740610950917039474, guid: 7e92315755741584091d006f313e149e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 659
+      value: -249
       objectReference: {fileID: 0}
     - target: {fileID: 8740610950917039474, guid: 7e92315755741584091d006f313e149e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -285
+      value: -14
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5302798435504866890, guid: 7e92315755741584091d006f313e149e, type: 3}
