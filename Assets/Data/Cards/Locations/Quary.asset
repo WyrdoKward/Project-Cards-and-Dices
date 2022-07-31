@@ -15,6 +15,7 @@ MonoBehaviour:
   name: Quary
   description: Only stone in here ?
   artwork: {fileID: 21300000, guid: 6cfec3319ccadfc45bcd889dd81347e7, type: 3}
+  isUnique: 1
   Loot:
   - {fileID: 11400000, guid: 7ea6aebe0c2b6a2499997e4417dbdb72, type: 2}
   - {fileID: 11400000, guid: fa1a61c1766215c4e89df4c35219a18e, type: 2}

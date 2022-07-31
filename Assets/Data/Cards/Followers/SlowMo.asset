@@ -15,3 +15,4 @@ MonoBehaviour:
   name: SlowMo
   description: I am the cutest !
   artwork: {fileID: 21300000, guid: 7184cfe35e18bd54fb47e64bf0743865, type: 3}
+  isUnique: 1

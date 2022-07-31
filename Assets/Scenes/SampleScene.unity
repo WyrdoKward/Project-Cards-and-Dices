@@ -169,7 +169,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardPrefab: {fileID: 1520376300158428889, guid: 7e92315755741584091d006f313e149e, type: 3}
-  GameBoard: {fileID: 410871245}
+  CardContainerGO: {fileID: 399976786}
+  defaultLoot: {fileID: 11400000, guid: b537a4a3fc9ce9243be9146a77d247f2, type: 2}
 --- !u!114 &75147570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,7 +189,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 410871248}
+    m_TransformParent: {fileID: 399976787}
     m_Modifications:
     - target: {fileID: 1520376300158428889, guid: 7e92315755741584091d006f313e149e, type: 3}
       propertyPath: m_Name
@@ -293,6 +294,41 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 5302798435504866890, guid: 7e92315755741584091d006f313e149e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7e92315755741584091d006f313e149e, type: 3}
+--- !u!1 &399976786
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 399976787}
+  m_Layer: 3
+  m_Name: CardContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &399976787
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 399976786}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1858256413}
+  - {fileID: 1443390734}
+  - {fileID: 2086780997}
+  - {fileID: 1037606644}
+  m_Father: {fileID: 410871248}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &410871245
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,10 +423,7 @@ Transform:
   m_LocalScale: {x: 3200, y: 1800, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1858256413}
-  - {fileID: 1443390734}
-  - {fileID: 2086780997}
-  - {fileID: 1037606644}
+  - {fileID: 399976787}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -613,7 +646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardSO: {fileID: 11400000, guid: 9380cfda70b218345b45164a48fddddd, type: 2}
-  DefaultExplorationTime: 15
+  DefaultExplorationTime: 3
 --- !u!1 &1360665971
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,7 +719,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 410871248}
+    m_TransformParent: {fileID: 399976787}
     m_Modifications:
     - target: {fileID: 1520376300158428889, guid: 7e92315755741584091d006f313e149e, type: 3}
       propertyPath: m_Name
@@ -820,7 +853,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 410871248}
+    m_TransformParent: {fileID: 399976787}
     m_Modifications:
     - target: {fileID: 1520376300158428884, guid: 7e92315755741584091d006f313e149e, type: 3}
       propertyPath: m_PresetInfoIsWorld
@@ -971,7 +1004,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 410871248}
+    m_TransformParent: {fileID: 399976787}
     m_Modifications:
     - target: {fileID: 1520376300158428889, guid: 7e92315755741584091d006f313e149e, type: 3}
       propertyPath: m_Name

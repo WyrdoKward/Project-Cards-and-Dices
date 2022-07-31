@@ -30,7 +30,7 @@ namespace Assets.Sources.Entities
                 var duration = DefaultExplorationTime;
 
                 //Calcul de la position du slider
-                Vector3 timerPosition = GetComponent<RectTransform>().position;
+                var timerPosition = GetComponent<RectTransform>().position;
                 //Debug.Log(cardSO.name + " is at " + timerPosition.ToString());
                 timerPosition.y += 20;
 
@@ -50,6 +50,12 @@ namespace Assets.Sources.Entities
 
             //TODO ejecter receivedCard
             Receivedcard.GetComponent<Card>().ReturnToLastPosition();
+        }
+
+
+        public override string GetName()
+        {
+            return cardSO.name;
         }
     }
 }

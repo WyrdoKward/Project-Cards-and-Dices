@@ -15,3 +15,4 @@ MonoBehaviour:
   name: Villager
   description: It's a simple man. He will follow you easily.
   artwork: {fileID: 21300000, guid: 8fbc419f611df874684b3260055a0569, type: 3}
+  isUnique: 0

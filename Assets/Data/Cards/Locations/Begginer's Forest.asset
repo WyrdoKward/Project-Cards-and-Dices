@@ -15,7 +15,9 @@ MonoBehaviour:
   name: Begginer's Forest
   description: There is mostly food and wood here
   artwork: {fileID: 21300000, guid: b4c2d3f597e2d714c8e35e8488b2feb3, type: 3}
+  isUnique: 1
   Loot:
+  - {fileID: 11400000, guid: efd0eb89a7aa44548a8f546e00cefc81, type: 2}
   - {fileID: 11400000, guid: e922690d41fd7ac41abf2d4cc85c4e71, type: 2}
   - {fileID: 11400000, guid: 9620828182d2fc64ea2fc3ebbfcd0104, type: 2}
   - {fileID: 11400000, guid: 28583668c02d2554d93b62c104419c02, type: 2}

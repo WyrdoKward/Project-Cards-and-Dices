@@ -11,7 +11,8 @@ namespace Assets.Sources.Systems
     {
         public GameObject cardPrefab;
         //public List<BaseCardSO> AllCardsData;
-        public GameObject GameBoard;
+        public GameObject CardContainerGO;
+        public BaseCardSO defaultLoot;
 
         //Prefabs with SO and spawn
         //https://www.youtube.com/watch?v=i9oVPmgjw-U
@@ -27,13 +28,44 @@ namespace Assets.Sources.Systems
             //GenerateCards(card => card.name.ToLower().Contains("wood"));
         }
 
-        public void GenerateRandomCardFromList(List<BaseCardSO> cards)
+        public void GenerateRandomCardFromList(IEnumerable<BaseCardSO> cards)
         {
-            var rnd = Random.Range(0, cards.Count);
-            var chosenCard = cards[rnd];
-            SpawnCard(chosenCard);
+            var filteredLoot = FilterExistingUniqueCards(cards);
+
+            if (filteredLoot.Count == 0)
+                SpawnCard(defaultLoot);
+            else
+            {
+                var rnd = Random.Range(0, filteredLoot.Count);
+                var chosenCard = filteredLoot[rnd];
+                SpawnCard(chosenCard);
+            }
         }
 
+        private List<BaseCardSO> FilterExistingUniqueCards(IEnumerable<BaseCardSO> cards)
+        {
+            var res = new List<BaseCardSO>(cards);
+
+            //var inGameCardNames = CardContainerGO.transform.GetComponentsInChildren<Card>().Select(c => c.GetName());
+            var inGameCardNames = new List<string>();
+            var childCount = CardContainerGO.transform.GetComponentsInChildren<Card>().Length;
+            for (var i = 0; i < childCount; i++)
+            {
+                var card = CardContainerGO.transform.GetComponentsInChildren<Card>()[i];
+                if (card != null)
+                    inGameCardNames.Add(card.GetName());
+            }
+
+            foreach (var cardSO in cards)
+            {
+                if (!cardSO.isUnique)
+                    continue;
+
+                if (inGameCardNames.Contains(cardSO.name))
+                    res.Remove(cardSO);
+            }
+            return res;
+        }
 
         //private void GenerateCards(Func<BaseCardSO, bool> doWeWantToInstantiateCard)
         //{
@@ -63,7 +95,7 @@ namespace Assets.Sources.Systems
 
 
             spawedCardGO.name = cardData.name;
-            spawedCardGO.transform.SetParent(GameBoard.transform, false);
+            spawedCardGO.transform.SetParent(CardContainerGO.transform, false);
             spawedCardGO.GetComponentInChildren<RectTransform>().localScale = GlobalVariables.CardElementsScale;
             spawedCardGO.GetComponent<Canvas>().sortingOrder = 10; // temporaire, le temps de coder un truc pour capter les cartes autour et juste se poser au dessus
         }

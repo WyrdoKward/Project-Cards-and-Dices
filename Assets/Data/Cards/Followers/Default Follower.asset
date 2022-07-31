@@ -15,3 +15,4 @@ MonoBehaviour:
   name: Follower
   description: I am the default follower
   artwork: {fileID: 21300000, guid: c9f2f7a0abb501149899f7d2e6b27eb4, type: 3}
+  isUnique: 1

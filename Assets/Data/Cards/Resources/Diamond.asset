@@ -15,3 +15,4 @@ MonoBehaviour:
   name: Diamond
   description: Shiny !
   artwork: {fileID: 21300000, guid: 2152e17706e52db48a69936b34a3068c, type: 3}
+  isUnique: 1

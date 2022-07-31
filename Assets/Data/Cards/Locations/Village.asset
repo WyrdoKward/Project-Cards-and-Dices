@@ -15,8 +15,7 @@ MonoBehaviour:
   name: Village
   description: Plenty of people
   artwork: {fileID: 21300000, guid: d39d0fd5576e01746a1cca8bb7fa55fd, type: 3}
-  cardType: 2
+  isUnique: 1
   Loot:
-  - {fileID: 11400000, guid: efd0eb89a7aa44548a8f546e00cefc81, type: 2}
-  - {fileID: 11400000, guid: d28a1047caebb0048a93add525a0d853, type: 2}
   - {fileID: 11400000, guid: 0ee4d593bddecd84ba11820fc8a21b6f, type: 2}
+  - {fileID: 11400000, guid: d28a1047caebb0048a93add525a0d853, type: 2}

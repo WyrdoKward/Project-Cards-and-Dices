@@ -10,5 +10,11 @@ namespace Assets.Sources.Entities
         {
 
         }
+
+
+        public override string GetName()
+        {
+            return cardSO.name;
+        }
     }
 }

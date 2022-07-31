@@ -8,6 +8,8 @@ namespace Assets.Sources.ScriptableObjects.Cards
         public string description;
         public Sprite artwork;
 
+        public bool isUnique;
+
         //public Dice[] dices
 
         public void Print(GameObject gameObject)

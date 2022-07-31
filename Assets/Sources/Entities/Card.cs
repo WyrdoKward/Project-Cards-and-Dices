@@ -6,10 +6,11 @@ namespace Assets.Sources.Entities
     /// <summary>
     /// Remove this component form the instanciated prefab to replace it with a children if this entity
     /// </summary>
-    public class Card : MonoBehaviour
+    public abstract class Card : MonoBehaviour
     {
         internal GameObject Receivedcard;
         internal Vector3 scale;
+
         [SerializeField]
         internal Guid Guid { get; private set; }
 
@@ -32,6 +33,6 @@ namespace Assets.Sources.Entities
             transform.position = GetComponent<Draggable>().Lastposition;
         }
 
-
+        public abstract string GetName();
     }
 }
