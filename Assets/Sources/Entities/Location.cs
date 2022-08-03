@@ -21,9 +21,7 @@ namespace Assets.Sources.Entities
         {
             return cardSO.name;
         }
-        /// <summary>
-        /// Triggered when this card receives an other card
-        /// </summary>
+
         public override void TriggerActionsOnSnap(Card receivedCard)
         {
             Debug.Log($"{cardSO.name} received {receivedCard.GetName()}");

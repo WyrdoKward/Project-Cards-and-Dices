@@ -16,7 +16,6 @@ MonoBehaviour:
   description: Deal with him before he steals !
   artwork: {fileID: 21300000, guid: cf42eb71ad89e404f9b5be8da483b5ce, type: 3}
   isUnique: 0
-  ThreatTime: 30
-  NegateTime: 10
-  IsLoop: 0
+  ThreatTime: 5
+  NegateTime: 2
   Actions: {fileID: 11400000, guid: 6a7b2d2d5965c8d4ea2ddc9eb9d6c817, type: 2}

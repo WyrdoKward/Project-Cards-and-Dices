@@ -8,12 +8,21 @@ namespace Assets.Sources.ScriptableObjects.Actions
     [CreateAssetMenu(fileName = "New Thief", menuName = "Card/ThreatOutcome/ThiefActions")]
     internal class ThiefActionsSO : ThreatOutcomeSO
     {
-        public override void Failure()
+        public bool IsLoop;
+        public override void ExecuteThreat()
         {
             Debug.Log("Thief has stolen !");
+            if (IsLoop)
+                Debug.Log("And he'll do it again !!");
+
         }
 
-        public override void Success()
+        public override void FailureToPrevent()
+        {
+            Debug.Log("Thief has hurt your follower !");
+        }
+
+        public override void SuccessToPrevent()
         {
             Debug.Log("Thief has been stopped !");
         }

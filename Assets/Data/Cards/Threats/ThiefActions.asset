@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 821969131d599314d9d98642a9438f0f, type: 3}
   m_Name: ThiefActions
   m_EditorClassIdentifier: 
+  IsLoop: 1

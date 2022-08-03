@@ -9,7 +9,6 @@ namespace Assets.Sources.ScriptableObjects.Cards
     {
         public float ThreatTime;
         public float NegateTime;
-        public bool IsLoop;
 
         public ThreatOutcomeSO Actions; // Voir pour le DP Decorator ou Strategy. Et commencer par coder le spawn de la carte pour voir ce qui est accessible depuis le reste ?
 
