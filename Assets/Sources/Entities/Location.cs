@@ -11,11 +11,10 @@ namespace Assets.Sources.Entities
 
         public float DefaultExplorationTime = 10f;
 
-        GameObject gameManager;
 
-        public void Start()
+        public new void Start()
         {
-            gameManager = GameObject.Find("_GameManager");
+            base.Start();
         }
 
         public override string GetName()
@@ -27,32 +26,22 @@ namespace Assets.Sources.Entities
         /// </summary>
         public override void TriggerActionsOnSnap(Card receivedCard)
         {
+            Debug.Log($"{cardSO.name} received {receivedCard.GetName()}");
             if (receivedCard is Follower follower)
                 Explore(follower);
         }
 
         private void Explore(Follower follower)
         {
-            Debug.Log($"{cardSO.name} received {follower.name}");
             //Calcul de la durée à partir de this et receivedCard
             var duration = DefaultExplorationTime;
 
-            //Calcul de la position du slider
-            var timerPosition = GetComponent<RectTransform>().position;
-            //Debug.Log(cardSO.name + " is at " + timerPosition.ToString());
-            timerPosition.y += 20;
-
-            //On affiche le timer
-            gameManager.GetComponent<TimeManager>().InstanciateTimerSliderOnCard(duration, timerPosition, this.transform.parent.GetComponent<RectTransform>(), follower.Guid.ToString());
-
-
-            //https://www.youtube.com/watch?v=1hsppNzx7_0
-            FunctionTimer.Create(SpawnLoot, duration, follower.Guid.ToString());
+            LaunchTimer(SpawnLoot, duration, follower.Guid.ToString());
         }
 
         private void SpawnLoot()
         {
-            Debug.Log("Spawning loot...");
+            Debug.Log($"{cardSO.name} is spawning loot...");
             gameManager.GetComponent<CardSpawner>().GenerateRandomCardFromList(cardSO.Loot);
 
             //TODO ejecter receivedCard

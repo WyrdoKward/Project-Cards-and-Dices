@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Sources.Systems;
+using System;
 using UnityEngine;
 
 namespace Assets.Sources.Entities
@@ -10,13 +11,19 @@ namespace Assets.Sources.Entities
     {
         internal GameObject Receivedcard;
         internal Vector3 scale;
+        internal GameObject gameManager;
+        internal TimeManager timeManager;
 
         [SerializeField]
         internal Guid Guid { get; private set; }
 
-        private void Start()
+        public abstract string GetName();
+
+        internal virtual void Start()
         {
             scale = GetComponent<RectTransform>().localScale;
+            gameManager = GameObject.Find("_GameManager");
+            timeManager = gameManager.GetComponent<TimeManager>();
             Guid = Guid.NewGuid();
         }
 
@@ -33,6 +40,18 @@ namespace Assets.Sources.Entities
             transform.position = GetComponent<Draggable>().Lastposition;
         }
 
-        public abstract string GetName();
+        /// <summary>
+        /// Créer un timer sur cette carte et lance une action à la fin du temps imparti
+        /// </summary>
+        internal void LaunchTimer(Action action, float duration, string receivedCardGuid)
+        {
+            //Calcul de la position du slider
+            /*var timerPosition = GetComponent<RectTransform>().position;
+            timerPosition.y += 20;*/
+
+            //On affiche le timer
+            timeManager.InstanciateTimerSliderOnCard(action, duration, this.transform.parent.GetComponent<RectTransform>(), receivedCardGuid);
+
+        }
     }
 }
