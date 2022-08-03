@@ -19,3 +19,4 @@ MonoBehaviour:
   Loot:
   - {fileID: 11400000, guid: 0ee4d593bddecd84ba11820fc8a21b6f, type: 2}
   - {fileID: 11400000, guid: d28a1047caebb0048a93add525a0d853, type: 2}
+  - {fileID: 11400000, guid: e5eb1830d2da667439d1b477c6c7b4eb, type: 2}

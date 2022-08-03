@@ -1,4 +1,5 @@
 ﻿using Assets.Sources.Entities;
+using Assets.Sources.ScriptableObjects.Actions;
 using UnityEngine;
 
 namespace Assets.Sources.ScriptableObjects.Cards
@@ -10,7 +11,7 @@ namespace Assets.Sources.ScriptableObjects.Cards
         public float NegateTime;
         public bool IsLoop;
 
-        public ScriptableObject Actions; // Ca marche pas, voir pour le DP Decorator. Et commencer par coder le spawn de la carte pour voir ce qui est accessible depuis le reste ?
+        public ThreatOutcomeSO Actions; // Voir pour le DP Decorator ou Strategy. Et commencer par coder le spawn de la carte pour voir ce qui est accessible depuis le reste ?
 
         //public Dice[] dice;
 
