@@ -4,6 +4,7 @@ namespace Assets.Sources.ScriptableObjects.Actions
 {
     public abstract class ThreatOutcomeSO : ScriptableObject
     {
+        public GameObject thisCardGameObject;
         /// <summary>
         /// Comportement lorsque la menace arrive à exécution à la fin de son timer
         /// </summary>

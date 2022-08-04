@@ -13,6 +13,8 @@ namespace Assets.Sources.ScriptableObjects.Cards
 
         public override void InitializedCardWithScriptableObject(GameObject cardBodyGO)
         {
+            base.InitializedCardWithScriptableObject(cardBodyGO);
+
             cardBodyGO.AddComponent<Follower>();
             cardBodyGO.GetComponent<Follower>().cardSO = this;
         }

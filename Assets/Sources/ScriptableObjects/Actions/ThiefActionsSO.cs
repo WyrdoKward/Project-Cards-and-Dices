@@ -24,6 +24,7 @@ namespace Assets.Sources.ScriptableObjects.Actions
 
         public override void SuccessToPrevent()
         {
+            Destroy(thisCardGameObject.transform.parent.gameObject);
             Debug.Log("Thief has been stopped !");
         }
     }

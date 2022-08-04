@@ -7,6 +7,7 @@ namespace Assets.Sources.ScriptableObjects.Cards
         public new string name;
         public string description;
         public Sprite artwork;
+        internal GameObject thisCardGameObject;
 
         public bool isUnique;
 
@@ -18,6 +19,9 @@ namespace Assets.Sources.ScriptableObjects.Cards
             Debug.Log($"{name} is at Z worldposition {gameObject.transform.position.z}");
         }
 
-        public abstract void InitializedCardWithScriptableObject(GameObject cardBodyGO);
+        public virtual void InitializedCardWithScriptableObject(GameObject cardBodyGO)
+        {
+            thisCardGameObject = cardBodyGO;
+        }
     }
 }

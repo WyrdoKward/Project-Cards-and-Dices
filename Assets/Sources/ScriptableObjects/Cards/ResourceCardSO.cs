@@ -11,6 +11,8 @@ namespace Assets.Sources.ScriptableObjects.Cards
 
         public override void InitializedCardWithScriptableObject(GameObject cardBodyGO)
         {
+            base.InitializedCardWithScriptableObject(cardBodyGO);
+
             cardBodyGO.AddComponent<Resource>();
             cardBodyGO.GetComponent<Resource>().cardSO = this;
         }
