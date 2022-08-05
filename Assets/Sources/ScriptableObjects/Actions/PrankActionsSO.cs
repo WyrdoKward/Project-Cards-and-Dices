@@ -11,12 +11,12 @@ namespace Assets.Sources.ScriptableObjects.Actions
             return true;
         }
 
-        public override void FailureToPrevent()
+        protected override void ConcreteFailureToPrevent()
         {
             Debug.Log("Prank got worse !");
         }
 
-        public override void ConcreteSuccessToPrevent()
+        protected override void ConcreteSuccessToPrevent()
         {
             Debug.Log("Prank didn't work");
         }
