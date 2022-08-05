@@ -71,6 +71,7 @@ namespace Assets.Sources.ScriptableObjects.Actions
         protected virtual void FailureToPreventEndHook()
         {
             //Ejecter la carte du follower
+            thisCardBodyGameObject.GetComponentInChildren<Card>().Receivedcard.GetComponent<Card>().ReturnToLastPosition();
         }
     }
 }
