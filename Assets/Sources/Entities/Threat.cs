@@ -23,13 +23,14 @@ namespace Assets.Sources.Entities
         {
             Debug.Log($"{cardSO.name} received {receivedCard.GetName()}");
             if (receivedCard is Follower follower)
-                LaunchTimer(cardSO.Actions.ExecuteThreat, cardSO.NegateTime, this.Guid.ToString());
+                LaunchTimer(DetermineOutcome, cardSO.NegateTime, this.Guid.ToString());
         }
 
 
         private void DetermineOutcome()
         {
-            if (true)
+            var rnd = Random.Range(0, 2);
+            if (rnd == 0)
                 cardSO.Actions.SuccessToPrevent();
             else
                 cardSO.Actions.FailureToPrevent();
