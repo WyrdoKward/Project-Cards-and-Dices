@@ -49,9 +49,9 @@ namespace Assets.Sources.ScriptableObjects.Actions
             ConcreteSuccessToPrevent();
             SuccessToPreventEndHook();
         }
-        public abstract void ConcreteSuccessToPrevent();
-        public virtual void SuccessToPreventBeginningHook() { }
-        public virtual void SuccessToPreventEndHook()
+        protected abstract void ConcreteSuccessToPrevent();
+        protected virtual void SuccessToPreventBeginningHook() { }
+        protected virtual void SuccessToPreventEndHook()
         {
             var guid = thisCardBodyGameObject.GetComponentInChildren<Card>().Guid.ToString();
             FunctionTimer.StopTimer(guid);
@@ -60,6 +60,17 @@ namespace Assets.Sources.ScriptableObjects.Actions
         /// <summary>
         /// Conséquence lorsqu'on a essayé d'empêcher la menace mais que ca a été un echec
         /// </summary>
-        public abstract void FailureToPrevent();
+        public void FailureToPrevent()
+        {
+            FailureToPreventBeginningHook();
+            ConcreteFailureToPrevent();
+            FailureToPreventEndHook();
+        }
+        protected abstract void ConcreteFailureToPrevent();
+        protected virtual void FailureToPreventBeginningHook() { }
+        protected virtual void FailureToPreventEndHook()
+        {
+            //Ejecter la carte du follower
+        }
     }
 }

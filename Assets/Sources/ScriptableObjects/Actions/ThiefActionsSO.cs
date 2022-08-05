@@ -28,12 +28,12 @@ namespace Assets.Sources.ScriptableObjects.Actions
             return true;
         }
 
-        public override void FailureToPrevent()
+        protected override void ConcreteFailureToPrevent()
         {
             Debug.Log("Thief has hurt your follower !");
         }
 
-        public override void ConcreteSuccessToPrevent()
+        protected override void ConcreteSuccessToPrevent()
         {
             Destroy(thisCardBodyGameObject.transform.parent.gameObject);
             Debug.Log("Thief has been stopped !");
