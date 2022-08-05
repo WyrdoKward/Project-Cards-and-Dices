@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Assets.Sources.Entities;
+using Assets.Sources.Providers;
+using UnityEngine;
 
 namespace Assets.Sources.ScriptableObjects.Actions
 {
@@ -11,10 +13,21 @@ namespace Assets.Sources.ScriptableObjects.Actions
         public bool IsLoop;
         public override void ExecuteThreat()
         {
-            Debug.Log("Thief has stolen !");
+            //Récupérer une ressource au hazard
+            var randomResource = GameObject.Find("_GameManager").GetComponent<CardProvider>().GetRandomCard<Resource>();
+
+            if (randomResource == null)
+            {
+                Debug.Log("Nothing to steal, I'll be back !");
+                Destroy(thisCardGameObject.transform.parent.gameObject);
+                return;
+            }
+
+            Debug.Log($"Thief has stolen {randomResource.name}!");
             if (IsLoop)
                 Debug.Log("And he'll do it again !!");
 
+            Destroy(randomResource);
         }
 
         public override void FailureToPrevent()

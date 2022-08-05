@@ -4,6 +4,7 @@
     {
         Follower,
         Ressource,
-        Location
+        Location,
+        Threat
     }
 }
