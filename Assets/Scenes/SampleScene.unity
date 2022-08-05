@@ -297,6 +297,22 @@ PrefabInstance:
       propertyPath: cardSO
       value: 
       objectReference: {fileID: 11400000, guid: 9380cfda70b218345b45164a48fddddd, type: 2}
+    - target: {fileID: 7156823953398725989, guid: 7e92315755741584091d006f313e149e, type: 3}
+      propertyPath: m_Color.b
+      value: 0.12549017
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156823953398725989, guid: 7e92315755741584091d006f313e149e, type: 3}
+      propertyPath: m_Color.g
+      value: 0.8509804
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156823953398725989, guid: 7e92315755741584091d006f313e149e, type: 3}
+      propertyPath: m_Color.r
+      value: 0.42195815
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156823953398725989, guid: 7e92315755741584091d006f313e149e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8740610950917039474, guid: 7e92315755741584091d006f313e149e, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 177
@@ -660,7 +676,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardSO: {fileID: 11400000, guid: 9380cfda70b218345b45164a48fddddd, type: 2}
-  DefaultExplorationTime: 3
+  DefaultExplorationTime: 2
 --- !u!1 &1360665971
 GameObject:
   m_ObjectHideFlags: 0
@@ -861,7 +877,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardSO: {fileID: 11400000, guid: f26bd97dc8eb3fb47abf4c7aa2b6385c, type: 2}
-  DefaultExplorationTime: 10
+  DefaultExplorationTime: 2
 --- !u!1001 &1596926966
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1146,4 +1162,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardSO: {fileID: 11400000, guid: e215df024c95bc6499d54e165e7182c1, type: 2}
-  DefaultExplorationTime: 5
+  DefaultExplorationTime: 2

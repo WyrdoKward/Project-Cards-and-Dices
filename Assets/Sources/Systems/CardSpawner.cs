@@ -82,7 +82,6 @@ namespace Assets.Sources.Systems
             cd.LoadCardData(cardData);
             cd.cardSO = cardData;
 
-
             var spawedCardGO = Instantiate(cardPrefab, new Vector3(10f, 10f, -10f), Quaternion.identity);
 
             var cardBodyGO = spawedCardGO.GetComponentInChildren<RectTransform>().Find("Card Body").gameObject;

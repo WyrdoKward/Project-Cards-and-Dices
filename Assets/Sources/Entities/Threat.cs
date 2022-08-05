@@ -15,7 +15,7 @@ namespace Assets.Sources.Entities
         {
             base.Start();
 
-            LaunchTimer(cardSO.Actions.ExecuteThreat, cardSO.ThreatTime, this.Guid.ToString());
+            LaunchDelayedActionWithTimer(cardSO.Actions.ExecuteThreat, cardSO.ThreatTime, this.Guid.ToString());
         }
 
 
@@ -23,7 +23,7 @@ namespace Assets.Sources.Entities
         {
             Debug.Log($"{cardSO.name} received {receivedCard.GetName()}");
             if (receivedCard is Follower follower)
-                LaunchTimer(DetermineOutcome, cardSO.NegateTime, this.Guid.ToString());
+                LaunchDelayedActionWithTimer(DetermineOutcome, cardSO.NegateTime, this.Guid.ToString());
         }
 
 

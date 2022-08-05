@@ -22,7 +22,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
         isBeeingDragged = false;
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {
         Debug.Log("OnBeginDrag");
 
@@ -41,7 +41,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
 
     }
 
-    public void OnDrag(PointerEventData eventData)
+    void IDragHandler.OnDrag(PointerEventData eventData)
     {
         rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
@@ -50,13 +50,13 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
     /// Is called when a draggableObject is drop in here => implement this on the target
     /// </summary>
     /// <param name="eventData">The card beeing moved</param>
-    public void OnDrop(PointerEventData eventData)
+    void IDropHandler.OnDrop(PointerEventData eventData)
     {
         Debug.Log("OnDrop");
         if (eventData.pointerDrag != null)
         {
             //Snapping
-            Vector2 targetPosition = GetComponent<RectTransform>().anchoredPosition;
+            var targetPosition = GetComponent<RectTransform>().anchoredPosition;
             targetPosition.y -= 70 * GetComponent<RectTransform>().localScale.y;
             eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = targetPosition;
 
@@ -64,13 +64,13 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
             eventData.pointerDrag.GetComponentInParent<Canvas>().sortingOrder = GetComponentInParent<Canvas>().sortingOrder + 1;
             eventData.pointerDrag.GetComponent<Draggable>().isBeeingDragged = false;
 
-            Card targetCard = GetComponent<Card>();
+            var targetCard = GetComponent<Card>();
             targetCard.Receivedcard = eventData.pointerDrag;
             targetCard.TriggerActionsOnSnap(eventData.pointerDrag.GetComponent<Card>());
         }
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    void IEndDragHandler.OnEndDrag(PointerEventData eventData)
     {
         Debug.Log("OnEndDrag");
         canvasGroup.alpha = 1;
