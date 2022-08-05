@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 75147568}
   - component: {fileID: 75147569}
   - component: {fileID: 75147570}
+  - component: {fileID: 75147571}
   m_Layer: 0
   m_Name: _GameManager
   m_TagString: Untagged
@@ -184,6 +185,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerPrefab: {fileID: 882746612140253963, guid: 560ac85d35c03184d9e3452140433d56, type: 3}
+--- !u!114 &75147571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 75147566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad1a11db6b858154f9c48d189077b9d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CardContainerGO: {fileID: 399976786}
 --- !u!1001 &149484311
 PrefabInstance:
   m_ObjectHideFlags: 0
