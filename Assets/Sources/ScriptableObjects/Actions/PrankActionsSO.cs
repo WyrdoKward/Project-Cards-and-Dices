@@ -5,9 +5,10 @@ namespace Assets.Sources.ScriptableObjects.Actions
     [CreateAssetMenu(fileName = "New Prank", menuName = "Card/ThreatOutcome/PrankActions")]
     internal class PrankActionsSO : ThreatOutcomeSO
     {
-        public override void ExecuteThreat()
+        protected override bool ConcreteExecuteThreat()
         {
             Debug.Log("Haha you got pranked !");
+            return true;
         }
 
         public override void FailureToPrevent()
@@ -15,7 +16,7 @@ namespace Assets.Sources.ScriptableObjects.Actions
             Debug.Log("Prank got worse !");
         }
 
-        public override void SuccessToPrevent()
+        public override void ConcreteSuccessToPrevent()
         {
             Debug.Log("Prank didn't work");
         }

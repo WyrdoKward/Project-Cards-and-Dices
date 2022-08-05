@@ -29,16 +29,23 @@ namespace Assets.Sources.Systems
         public static void StopTimer(string timerName)
         {
             InitIfNeeded();
+            var hasBeenStopped = false;
             Debug.Log("Stopping " + timerName);
+
+
             for (var i = 0; i < activeTimers.Count; i++)
             {
                 if (activeTimers[i].name == timerName)
                 {
                     activeTimers[i].DestroySelf();
                     i--; // On décrémente pour ne pas en skipper un, puisque qu'on en a viré un de la liste
-                    Debug.Log("STOP");
+                    Debug.Log("Stopping " + timerName + " OK");
+                    hasBeenStopped = true;
                 }
             }
+            if (!hasBeenStopped)
+                Debug.Log("Stopping " + timerName + " FAILED - no such timer exists");
+
         }
 
         #region Private

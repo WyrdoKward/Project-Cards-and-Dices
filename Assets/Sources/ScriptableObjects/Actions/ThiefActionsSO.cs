@@ -10,24 +10,22 @@ namespace Assets.Sources.ScriptableObjects.Actions
     [CreateAssetMenu(fileName = "New Thief", menuName = "Card/ThreatOutcome/ThiefActions")]
     internal class ThiefActionsSO : ThreatOutcomeSO
     {
-        public bool IsLoop;
-        public override void ExecuteThreat()
+        protected override bool ConcreteExecuteThreat()
         {
             //Récupérer une ressource au hazard
             var randomResource = GameObject.Find("_GameManager").GetComponent<CardProvider>().GetRandomCard<Resource>();
 
-            if (randomResource == null)
+            if (randomResource == null) //Rien à voler, on fait disparaître le voleur et on arrete la boucle avec (return false)
             {
                 Debug.Log("Nothing to steal, I'll be back !");
-                Destroy(thisCardGameObject.transform.parent.gameObject);
-                return;
+                Destroy(thisCardBodyGameObject.transform.parent.gameObject);
+                return false;
             }
 
             Debug.Log($"Thief has stolen {randomResource.name}!");
-            if (IsLoop)
-                Debug.Log("And he'll do it again !!");
 
             Destroy(randomResource);
+            return true;
         }
 
         public override void FailureToPrevent()
@@ -35,9 +33,9 @@ namespace Assets.Sources.ScriptableObjects.Actions
             Debug.Log("Thief has hurt your follower !");
         }
 
-        public override void SuccessToPrevent()
+        public override void ConcreteSuccessToPrevent()
         {
-            Destroy(thisCardGameObject.transform.parent.gameObject);
+            Destroy(thisCardBodyGameObject.transform.parent.gameObject);
             Debug.Log("Thief has been stopped !");
         }
     }

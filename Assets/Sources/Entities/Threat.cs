@@ -15,7 +15,7 @@ namespace Assets.Sources.Entities
         {
             base.Start();
 
-            timeManager.InstanciateTimerSliderOnCard(cardSO.Actions.ExecuteThreat, cardSO.ThreatTime, this.transform.parent.GetComponent<RectTransform>(), this.Guid.ToString());
+            LaunchTimer(cardSO.Actions.ExecuteThreat, cardSO.ThreatTime, this.Guid.ToString());
         }
 
 
@@ -23,7 +23,7 @@ namespace Assets.Sources.Entities
         {
             Debug.Log($"{cardSO.name} received {receivedCard.GetName()}");
             if (receivedCard is Follower follower)
-                timeManager.InstanciateTimerSliderOnCard(DetermineOutcome, cardSO.ThreatTime, this.transform.parent.GetComponent<RectTransform>(), follower.Guid.ToString());
+                LaunchTimer(cardSO.Actions.ExecuteThreat, cardSO.NegateTime, this.Guid.ToString());
         }
 
 
