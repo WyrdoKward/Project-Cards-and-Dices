@@ -12,6 +12,8 @@ namespace Assets.Sources.ScriptableObjects.Cards
 
         public ThreatOutcomeSO Actions; // Voir pour le DP Decorator ou Strategy. Et commencer par coder le spawn de la carte pour voir ce qui est accessible depuis le reste ?
 
+        public override Color color => new Color(1, 0, 0);
+
         //public Dice[] dice;
 
         public override void InitializedCardWithScriptableObject(GameObject cardBodyGO)

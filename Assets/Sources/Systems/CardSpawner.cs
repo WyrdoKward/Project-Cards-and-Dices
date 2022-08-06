@@ -4,6 +4,7 @@ using Assets.Sources.Providers;
 using Assets.Sources.ScriptableObjects.Cards;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 namespace Assets.Sources.Systems
@@ -93,6 +94,7 @@ namespace Assets.Sources.Systems
             spawedCardGO.transform.SetParent(CardContainerGO.transform, false);
             spawedCardGO.GetComponentInChildren<RectTransform>().localScale = GlobalVariables.CardElementsScale;
             spawedCardGO.GetComponent<Canvas>().sortingOrder = 10; // temporaire, le temps de coder un truc pour capter les cartes autour et juste se poser au dessus
+            spawedCardGO.GetComponentInChildren<Graphic>().color = cardData.color;
         }
 
     }
