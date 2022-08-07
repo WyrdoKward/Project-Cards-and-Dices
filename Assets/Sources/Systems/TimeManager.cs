@@ -35,7 +35,7 @@ namespace Assets.Sources.Systems
             //TODO trrouver une solution avec les anchors
 
             //spawedTimer.transform.position = 20;
-            Debug.Log("Timer is at " + spawedTimer.GetComponent<RectTransform>().position.ToString());
+            //Debug.Log("Timer is at " + spawedTimer.GetComponent<RectTransform>().position.ToString());
             //spawedTimer.transform.localScale = GlobalVariables.CardElementsScale;
 
             //On attache l'action à un timer

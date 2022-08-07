@@ -33,7 +33,7 @@ namespace Assets.Sources.ScriptableObjects.Actions
             FunctionTimer.StopTimer(guid);
             if (IsLoop && continueLoop)
             {
-                Debug.Log("ExecuteThreatEndHook");
+                //Debug.Log("ExecuteThreatEndHook");
                 var duration = ((ThreatCardSO)baseCardSO).ThreatTime;
 
                 thisCardBodyGameObject.GetComponentInChildren<Card>().LaunchDelayedActionWithTimer(ExecuteThreat, duration, guid);

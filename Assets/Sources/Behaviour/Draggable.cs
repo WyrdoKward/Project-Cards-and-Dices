@@ -24,7 +24,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("OnBeginDrag");
+        //Debug.Log("OnBeginDrag");
 
         Lastposition = transform.position;
 
@@ -52,7 +52,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
     /// <param name="eventData">The card beeing moved</param>
     void IDropHandler.OnDrop(PointerEventData eventData)
     {
-        Debug.Log("OnDrop");
+        //Debug.Log("OnDrop");
         if (eventData.pointerDrag != null)
         {
             //Snapping
@@ -72,7 +72,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
 
     void IEndDragHandler.OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("OnEndDrag");
+        //Debug.Log("OnEndDrag");
         canvasGroup.alpha = 1;
         canvasGroup.blocksRaycasts = true;
         if (isBeeingDragged)

@@ -8,7 +8,7 @@ namespace Assets.Sources.ScriptableObjects.Actions
     /// A implémenter sur tous les ThreatSO de type "voleur"
     /// </summary>
     [CreateAssetMenu(fileName = "New Thief", menuName = "Card/ThreatOutcome/ThiefActions")]
-    internal class ThiefActionsSO : ThreatOutcomeSO
+    internal class ThiefOutcomesSO : ThreatOutcomeSO
     {
         protected override bool ConcreteExecuteThreat()
         {
@@ -17,7 +17,7 @@ namespace Assets.Sources.ScriptableObjects.Actions
 
             if (randomResource == null) //Rien à voler, on fait disparaître le voleur et on arrete la boucle avec (return false)
             {
-                Debug.Log("Nothing to steal, I'll be back !");
+                //Debug.Log("Nothing to steal, I'll be back !");
                 Destroy(thisCardBodyGameObject.transform.parent.gameObject);
                 return false;
             }

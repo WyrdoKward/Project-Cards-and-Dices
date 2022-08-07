@@ -78,7 +78,7 @@ namespace Assets.Sources.Systems
 
         public void SpawnCard(BaseCardSO cardData)
         {
-            Debug.Log($"SpawnCard {cardData.name}");
+            //Debug.Log($"SpawnCard {cardData.name}");
             var cd = cardPrefab.GetComponentInChildren<CardDisplay>();
             cd.LoadCardData(cardData);
             cd.cardSO = cardData;

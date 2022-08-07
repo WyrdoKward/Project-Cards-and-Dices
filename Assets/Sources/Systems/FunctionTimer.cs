@@ -15,7 +15,7 @@ namespace Assets.Sources.Systems
         /// </summary>
         public static FunctionTimer Create(Action action, float delay, string timerName = null)
         {
-            Debug.Log("Creating " + timerName);
+            //Debug.Log("Creating " + timerName);
             InitIfNeeded();
             var go = new GameObject("FunctionTimer", typeof(MonoBehaviourHook));
             var functionTimer = new FunctionTimer(action, delay, timerName, go);
@@ -30,7 +30,7 @@ namespace Assets.Sources.Systems
         {
             InitIfNeeded();
             var hasBeenStopped = false;
-            Debug.Log("Stopping " + timerName);
+            //Debug.Log("Stopping " + timerName);
 
 
             for (var i = 0; i < activeTimers.Count; i++)
@@ -39,7 +39,7 @@ namespace Assets.Sources.Systems
                 {
                     activeTimers[i].DestroySelf();
                     i--; // On décrémente pour ne pas en skipper un, puisque qu'on en a viré un de la liste
-                    Debug.Log("Stopping " + timerName + " OK");
+                    //Debug.Log("Stopping " + timerName + " OK");
                     hasBeenStopped = true;
                 }
             }

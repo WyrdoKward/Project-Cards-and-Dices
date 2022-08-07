@@ -1,6 +1,5 @@
 ﻿using Assets.Sources.ScriptableObjects.Cards;
 using Assets.Sources.Systems;
-using UnityEngine;
 
 namespace Assets.Sources.Entities
 {
@@ -24,7 +23,7 @@ namespace Assets.Sources.Entities
 
         public override void TriggerActionsOnSnap(Card receivedCard)
         {
-            Debug.Log($"{cardSO.name} received {receivedCard.GetName()}");
+            //Debug.Log($"{cardSO.name} received {receivedCard.GetName()}");
             if (receivedCard is Follower follower)
                 Explore(follower);
         }
@@ -39,7 +38,7 @@ namespace Assets.Sources.Entities
 
         private void SpawnLoot()
         {
-            Debug.Log($"{cardSO.name} is spawning loot...");
+            //Debug.Log($"{cardSO.name} is spawning loot...");
             gameManager.GetComponent<CardSpawner>().GenerateRandomCardFromList(cardSO.Loot);
 
             //TODO ejecter receivedCard

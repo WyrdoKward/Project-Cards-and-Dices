@@ -14,7 +14,7 @@ namespace Assets.Sources.Display
 
         void Start()
         {
-            Debug.Log("Start");
+            //Debug.Log("Start");
             if (cardSO != null)
                 LoadCardData(cardSO);
             else
@@ -23,7 +23,7 @@ namespace Assets.Sources.Display
 
         public void LoadCardData(BaseCardSO data)
         {
-            Debug.Log($"LoadCardData for {data.name}");
+            //Debug.Log($"LoadCardData for {data.name}");
             NameText.text = data.name;
             DescriptionText.text = data.description;
             ArtworkImage.sprite = data.artwork;

@@ -16,8 +16,8 @@ namespace Assets.Sources.ScriptableObjects.Cards
 
         public void Print(GameObject gameObject)
         {
-            Debug.Log($"{name} is at Z localposition {gameObject.transform.localPosition.z}");
-            Debug.Log($"{name} is at Z worldposition {gameObject.transform.position.z}");
+            //Debug.Log($"{name} is at Z localposition {gameObject.transform.localPosition.z}");
+            //Debug.Log($"{name} is at Z worldposition {gameObject.transform.position.z}");
         }
 
         public virtual void InitializedCardWithScriptableObject(GameObject cardBodyGO)
