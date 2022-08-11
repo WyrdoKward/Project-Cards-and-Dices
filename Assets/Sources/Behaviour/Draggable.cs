@@ -37,7 +37,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
         //Destruction du Timer slider & function
         var receivedCardGuid = eventData.pointerDrag.GetComponent<Card>().Guid.ToString();
         Destroy(GameObject.Find($"TimerSlider_{receivedCardGuid}"));
-        FunctionTimer.StopTimer(receivedCardGuid);
+        FunctionTimer.StopTimerFromMovement(receivedCardGuid);
 
     }
 

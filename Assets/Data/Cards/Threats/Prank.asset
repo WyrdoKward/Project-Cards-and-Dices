@@ -18,5 +18,4 @@ MonoBehaviour:
   isUnique: 0
   ThreatTime: 5
   NegateTime: 2
-  IsLoop: 0
-  Actions: {fileID: 11400000, guid: 632eba140942c03438a5690fd777ddf3, type: 2}
+  Outcomes: {fileID: 11400000, guid: 632eba140942c03438a5690fd777ddf3, type: 2}

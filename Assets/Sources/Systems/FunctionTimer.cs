@@ -9,16 +9,17 @@ namespace Assets.Sources.Systems
     /// </summary>
     public class FunctionTimer
     {
-
+        public bool HasToStopWhenCardIsMoving;
         /// <summary>
         /// Public function to use to instanciate a new timer with an action
         /// </summary>
-        public static FunctionTimer Create(Action action, float delay, string timerName = null)
+        public static FunctionTimer Create(Action action, float delay, bool hasToStopWhenCardIsMoving, string timerName = null)
         {
             //Debug.Log("Creating " + timerName);
             InitIfNeeded();
             var go = new GameObject("FunctionTimer", typeof(MonoBehaviourHook));
             var functionTimer = new FunctionTimer(action, delay, timerName, go);
+            functionTimer.HasToStopWhenCardIsMoving = hasToStopWhenCardIsMoving;
             go.GetComponent<MonoBehaviourHook>().onUpdate = functionTimer.Update;
 
             activeTimers.Add(functionTimer);
@@ -26,7 +27,7 @@ namespace Assets.Sources.Systems
             return functionTimer;
         }
 
-        public static void StopTimer(string timerName)
+        public static void StopTimer(string timerName, bool fromMovement = false)
         {
             InitIfNeeded();
             var hasBeenStopped = false;
@@ -37,6 +38,9 @@ namespace Assets.Sources.Systems
             {
                 if (activeTimers[i].name == timerName)
                 {
+                    if (fromMovement && !activeTimers[i].HasToStopWhenCardIsMoving)
+                        continue;
+
                     activeTimers[i].DestroySelf();
                     i--; // On décrémente pour ne pas en skipper un, puisque qu'on en a viré un de la liste
                     //Debug.Log("Stopping " + timerName + " OK");
@@ -46,6 +50,11 @@ namespace Assets.Sources.Systems
             if (!hasBeenStopped)
                 Debug.Log("Stopping " + timerName + " FAILED - no such timer exists");
 
+        }
+
+        internal static void StopTimerFromMovement(string receivedCardGuid)
+        {
+            StopTimer(receivedCardGuid, true);
         }
 
         #region Private

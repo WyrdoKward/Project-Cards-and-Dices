@@ -33,7 +33,7 @@ namespace Assets.Sources.Entities
             //Calcul de la durée à partir de this et receivedCard
             var duration = DefaultExplorationTime;
 
-            LaunchDelayedActionWithTimer(SpawnLoot, duration, follower.Guid.ToString());
+            LaunchDelayedActionWithTimer(SpawnLoot, duration, follower.Guid.ToString(), true);
         }
 
         private void SpawnLoot()

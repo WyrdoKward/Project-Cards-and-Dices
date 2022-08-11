@@ -1,4 +1,6 @@
+using Assets.Sources.Systems.Timers;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Sources.Systems
@@ -6,8 +8,12 @@ namespace Assets.Sources.Systems
     public class TimeManager : MonoBehaviour
     {
         public GameObject timerPrefab;
+        public static List<TimerGroup> TimerGroups;
 
-        internal void InstanciateTimerSliderOnCard(Action action, float duration, RectTransform targetCard, string receivedCardGuid)
+        internal void CreateTimerGroup() { }
+
+
+        internal void InstanciateTimerSliderOnCard(Action action, float duration, RectTransform targetCard, string receivedCardGuid, bool hasToStopWhenCardIsMoving)
         {
             //Calcul de la position du slider
             var timerPosition = targetCard.position;
@@ -40,7 +46,7 @@ namespace Assets.Sources.Systems
 
             //On attache l'action à un timer
             //https://www.youtube.com/watch?v=1hsppNzx7_0
-            FunctionTimer.Create(action, duration, receivedCardGuid);
+            FunctionTimer.Create(action, duration, hasToStopWhenCardIsMoving, receivedCardGuid);
         }
     }
 }

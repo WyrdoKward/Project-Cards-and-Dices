@@ -303,11 +303,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7156823953398725989, guid: 7e92315755741584091d006f313e149e, type: 3}
       propertyPath: m_Color.g
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7156823953398725989, guid: 7e92315755741584091d006f313e149e, type: 3}
       propertyPath: m_Color.r
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7156823953398725989, guid: 7e92315755741584091d006f313e149e, type: 3}
       propertyPath: m_Enabled
@@ -843,6 +843,18 @@ PrefabInstance:
       propertyPath: cardSO
       value: 
       objectReference: {fileID: 11400000, guid: f26bd97dc8eb3fb47abf4c7aa2b6385c, type: 2}
+    - target: {fileID: 7156823953398725989, guid: 7e92315755741584091d006f313e149e, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156823953398725989, guid: 7e92315755741584091d006f313e149e, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156823953398725989, guid: 7e92315755741584091d006f313e149e, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8740610950917039474, guid: 7e92315755741584091d006f313e149e, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 455
@@ -995,15 +1007,15 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 956d88d9edd3d484a90dea72f22aaba7, type: 2}
     - target: {fileID: 7156823953398725989, guid: 7e92315755741584091d006f313e149e, type: 3}
       propertyPath: m_Color.b
-      value: 0.8679245
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7156823953398725989, guid: 7e92315755741584091d006f313e149e, type: 3}
       propertyPath: m_Color.g
-      value: 0.76565236
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7156823953398725989, guid: 7e92315755741584091d006f313e149e, type: 3}
       propertyPath: m_Color.r
-      value: 0.50356
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8740610950917039474, guid: 7e92315755741584091d006f313e149e, type: 3}
       propertyPath: m_SizeDelta.x
@@ -1140,6 +1152,14 @@ PrefabInstance:
       propertyPath: cardSO
       value: 
       objectReference: {fileID: 11400000, guid: e215df024c95bc6499d54e165e7182c1, type: 2}
+    - target: {fileID: 7156823953398725989, guid: 7e92315755741584091d006f313e149e, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156823953398725989, guid: 7e92315755741584091d006f313e149e, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8740610950917039474, guid: 7e92315755741584091d006f313e149e, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 721

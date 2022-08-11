@@ -43,10 +43,16 @@ namespace Assets.Sources.Entities
         /// <summary>
         /// Créer un timer sur cette carte et lance une action à la fin du temps imparti
         /// </summary>
-        internal void LaunchDelayedActionWithTimer(Action action, float duration, string receivedCardGuid)
+        internal void LaunchDelayedActionWithTimer(Action action, float duration, string receivedCardGuid, bool hasToStopWhenCardIsMoving)
         {
             //On affiche le timer
-            timeManager.InstanciateTimerSliderOnCard(action, duration, this.transform.parent.GetComponent<RectTransform>(), receivedCardGuid);
+            timeManager.CreateTimerGroup();
+            //timeManager.InstanciateTimerSliderOnCard(action, duration, GetTransform(), receivedCardGuid, hasToStopWhenCardIsMoving);
+        }
+
+        internal RectTransform GetTransform()
+        {
+            return this.transform.parent.GetComponent<RectTransform>();
         }
     }
 }
