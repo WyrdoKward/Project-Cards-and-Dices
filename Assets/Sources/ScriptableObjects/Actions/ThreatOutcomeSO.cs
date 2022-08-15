@@ -36,7 +36,7 @@ namespace Assets.Sources.ScriptableObjects.Actions
                 //Debug.Log("ExecuteThreatEndHook");
                 var duration = ((ThreatCardSO)baseCardSO).ThreatTime;
 
-                thisCardBodyGameObject.GetComponentInChildren<Card>().LaunchDelayedActionWithTimer(ExecuteThreat, duration, guid, false);
+                thisCardBodyGameObject.GetComponentInChildren<Card>().LaunchDelayedActionWithTimer(ExecuteThreat, duration, thisCardBodyGameObject.GetComponentInChildren<Card>(), false);
             }
         }
 

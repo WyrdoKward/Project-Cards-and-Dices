@@ -43,10 +43,10 @@ namespace Assets.Sources.Entities
         /// <summary>
         /// Créer un timer sur cette carte et lance une action à la fin du temps imparti
         /// </summary>
-        internal void LaunchDelayedActionWithTimer(Action action, float duration, string receivedCardGuid, bool hasToStopWhenCardIsMoving)
+        internal void LaunchDelayedActionWithTimer(Action action, float duration, Card receivedCard, bool hasToStopWhenCardIsMoving)
         {
             //On affiche le timer
-            timeManager.CreateTimerGroup();
+            timeManager.CreateTimerGroup(action, duration, this, receivedCard, hasToStopWhenCardIsMoving);
             //timeManager.InstanciateTimerSliderOnCard(action, duration, GetTransform(), receivedCardGuid, hasToStopWhenCardIsMoving);
         }
 

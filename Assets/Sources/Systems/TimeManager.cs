@@ -1,3 +1,4 @@
+using Assets.Sources.Entities;
 using Assets.Sources.Systems.Timers;
 using System;
 using System.Collections.Generic;
@@ -8,12 +9,29 @@ namespace Assets.Sources.Systems
     public class TimeManager : MonoBehaviour
     {
         public GameObject timerPrefab;
-        public static List<TimerGroup> TimerGroups;
+        public static List<TimerGroup> TimerGroups = new List<TimerGroup>();
 
-        internal void CreateTimerGroup() { }
+        internal void CreateTimerGroup(Action action, float duration, Card targetCard, Card receivedCard,/*RectTransform targetCard, string receivedCardGuid,*/ bool hasToStopWhenCardIsMoving)
+        {
+            var cards = new List<Card>() { targetCard, receivedCard };
+            var timerGroup = new TimerGroup(cards, action, duration, hasToStopWhenCardIsMoving);
+
+            TimerGroups.Add(timerGroup);
+
+            DisplayTimerSlider(duration, targetCard.GetTransform(), timerGroup.Guid);
+        }
+
+        internal void StopTimer(string timerGroupGuid)
+        {
+            //TODO remplace FunctionTimer.StopTimer
+
+            //Stoper le FunctionTimer
+            //Détruire le TimerSlider
+            //Disperser le stack de cartes
+        }
 
 
-        internal void InstanciateTimerSliderOnCard(Action action, float duration, RectTransform targetCard, string receivedCardGuid, bool hasToStopWhenCardIsMoving)
+        private void DisplayTimerSlider(float duration, RectTransform targetCard, string timerGroupGuid)
         {
             //Calcul de la position du slider
             var timerPosition = targetCard.position;
@@ -27,7 +45,7 @@ namespace Assets.Sources.Systems
             newPos.x = 180;
 
             var spawedTimer = Instantiate(timerPrefab, timerPosition, Quaternion.identity);
-            spawedTimer.name = $"TimerSlider_{receivedCardGuid}";
+            spawedTimer.name = timerGroupGuid;
             spawedTimer.GetComponent<Timer>().maxTime = duration;
             spawedTimer.GetComponent<Timer>().timerSlider.value = duration;
 
@@ -43,10 +61,6 @@ namespace Assets.Sources.Systems
             //spawedTimer.transform.position = 20;
             //Debug.Log("Timer is at " + spawedTimer.GetComponent<RectTransform>().position.ToString());
             //spawedTimer.transform.localScale = GlobalVariables.CardElementsScale;
-
-            //On attache l'action à un timer
-            //https://www.youtube.com/watch?v=1hsppNzx7_0
-            FunctionTimer.Create(action, duration, hasToStopWhenCardIsMoving, receivedCardGuid);
         }
     }
 }

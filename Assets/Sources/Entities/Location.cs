@@ -16,10 +16,7 @@ namespace Assets.Sources.Entities
             base.Start();
         }
 
-        public override string GetName()
-        {
-            return cardSO.name;
-        }
+        public override string GetName() => cardSO.name;
 
         public override void TriggerActionsOnSnap(Card receivedCard)
         {
@@ -33,7 +30,7 @@ namespace Assets.Sources.Entities
             //Calcul de la durée à partir de this et receivedCard
             var duration = DefaultExplorationTime;
 
-            LaunchDelayedActionWithTimer(SpawnLoot, duration, follower.Guid.ToString(), true);
+            LaunchDelayedActionWithTimer(SpawnLoot, duration, follower, true);
         }
 
         private void SpawnLoot()

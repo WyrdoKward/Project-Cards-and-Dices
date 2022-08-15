@@ -9,7 +9,20 @@ namespace Assets.Sources.Systems
     /// </summary>
     public class FunctionTimer
     {
+        #region Fields
         public bool HasToStopWhenCardIsMoving;
+
+        private Action action;
+        private float remainingTime;
+        private string name;
+        private GameObject go;
+        private bool isFinished;
+
+        private static List<FunctionTimer> activeTimers;
+        private static GameObject initGameObject;
+
+        #endregion
+
         /// <summary>
         /// Public function to use to instanciate a new timer with an action
         /// </summary>
@@ -18,8 +31,7 @@ namespace Assets.Sources.Systems
             //Debug.Log("Creating " + timerName);
             InitIfNeeded();
             var go = new GameObject("FunctionTimer", typeof(MonoBehaviourHook));
-            var functionTimer = new FunctionTimer(action, delay, timerName, go);
-            functionTimer.HasToStopWhenCardIsMoving = hasToStopWhenCardIsMoving;
+            var functionTimer = new FunctionTimer(action, delay, timerName, go, hasToStopWhenCardIsMoving);
             go.GetComponent<MonoBehaviourHook>().onUpdate = functionTimer.Update;
 
             activeTimers.Add(functionTimer);
@@ -57,23 +69,15 @@ namespace Assets.Sources.Systems
             StopTimer(receivedCardGuid, true);
         }
 
-        #region Private
+        #region Private methods
 
-        private Action action;
-        private float remainingTime;
-        private string name;
-        private GameObject go;
-        private bool isFinished;
-
-        private static List<FunctionTimer> activeTimers;
-        private static GameObject initGameObject;
-
-        private FunctionTimer(Action action, float delay, string timerName, GameObject go)
+        private FunctionTimer(Action action, float delay, string timerName, GameObject go, bool hasToStopWhenCardIsMoving)
         {
             this.action = action;
             this.remainingTime = delay;
             this.name = timerName;
             this.go = go;
+            HasToStopWhenCardIsMoving = hasToStopWhenCardIsMoving;
         }
 
         private static void InitIfNeeded()
