@@ -56,6 +56,20 @@ namespace Assets.Sources.Systems.Timers
 
             isFinished = true;
             UnityEngine.Object.Destroy(timerHookGO);
+            DisperseCards();
+        }
+
+
+        /// <summary>
+        /// On renvoie toutes les cartes superposées à leur dernière position
+        /// </summary>
+        private void DisperseCards()
+        {
+            for (var i = 0; i < Cards.Count; i++)
+            {
+                if (i != 0)
+                    Cards[i].ReturnToLastPosition();
+            }
         }
 
         /// <summary>

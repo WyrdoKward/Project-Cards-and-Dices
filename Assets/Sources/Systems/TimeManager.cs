@@ -49,9 +49,6 @@ namespace Assets.Sources.Systems
 
             if (!hasBeenStopped)
                 Debug.Log("Stopping " + timerGroupGuid + " FAILED - no such timer exists");
-
-
-            //TODO Disperser le stack de cartes
         }
 
         /// <summary>

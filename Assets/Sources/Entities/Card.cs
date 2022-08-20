@@ -26,6 +26,8 @@ namespace Assets.Sources.Entities
             gameManager = GameObject.Find("_GameManager");
             timeManager = gameManager.GetComponent<TimeManager>();
             Guid = Guid.NewGuid();
+            GetComponent<Draggable>().Lastposition = transform.position;
+            Debug.Log($"Card.Start : {GetName()} at {transform.position}");
         }
 
         /// <summary>
