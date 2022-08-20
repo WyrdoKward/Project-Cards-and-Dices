@@ -26,19 +26,20 @@ namespace Assets.Sources.Systems
         /// <summary>
         /// Public function to use to instanciate a new timer with an action
         /// </summary>
-        public static FunctionTimer Create(Action action, float delay, bool hasToStopWhenCardIsMoving, string timerName = null)
+        public static FunctionTimer Create(Action action, float delay, bool hasToStopWhenCardIsMoving, string timerName = "")
         {
             //Debug.Log("Creating " + timerName);
             InitIfNeeded();
-            var go = new GameObject("FunctionTimer", typeof(MonoBehaviourHook));
-            var functionTimer = new FunctionTimer(action, delay, timerName, go, hasToStopWhenCardIsMoving);
-            go.GetComponent<MonoBehaviourHook>().onUpdate = functionTimer.Update;
+            //var go = new GameObject($"Timer-{timerName}", typeof(MonoBehaviourHook));
+            var functionTimer = new FunctionTimer(action, delay, timerName, hasToStopWhenCardIsMoving);
+            //go.GetComponent<MonoBehaviourHook>().onUpdate = functionTimer.Update;
 
-            activeTimers.Add(functionTimer);
+            //activeTimers.Add(functionTimer);
 
             return functionTimer;
         }
 
+        [Obsolete]
         public static void StopTimer(string timerName, bool fromMovement = false)
         {
             InitIfNeeded();
@@ -64,6 +65,7 @@ namespace Assets.Sources.Systems
 
         }
 
+        [Obsolete]
         internal static void StopTimerFromMovement(string receivedCardGuid)
         {
             StopTimer(receivedCardGuid, true);
@@ -71,12 +73,11 @@ namespace Assets.Sources.Systems
 
         #region Private methods
 
-        private FunctionTimer(Action action, float delay, string timerName, GameObject go, bool hasToStopWhenCardIsMoving)
+        private FunctionTimer(Action action, float delay, string timerName, bool hasToStopWhenCardIsMoving)
         {
             this.action = action;
             this.remainingTime = delay;
             this.name = timerName;
-            this.go = go;
             HasToStopWhenCardIsMoving = hasToStopWhenCardIsMoving;
         }
 
@@ -89,45 +90,37 @@ namespace Assets.Sources.Systems
             }
         }
 
-        private void Update()
+        /// <summary>
+        /// Checks if timer is complete
+        /// </summary>
+        /// <returns>True if remainingTime is < 0</returns>
+        public bool Update()
         {
-            if (isFinished)
-                return;
-
             remainingTime -= Time.deltaTime;
             if (remainingTime < 0)
             {
                 action();
-                DestroySelf();
+                return true;
             }
+            return false;
         }
 
-
-        private void DestroySelf()
+        [Obsolete]
+        public void DestroySelf()
         {
             isFinished = true;
             UnityEngine.Object.Destroy(go);
             RemoveTimer(this);
         }
 
+        [Obsolete]
         private static void RemoveTimer(FunctionTimer functionTimer)
         {
             InitIfNeeded();
             activeTimers.Remove(functionTimer);
         }
 
-        /// <summary>
-        /// Dummy class to access MonoBehaviour functions
-        /// </summary>
-        private class MonoBehaviourHook : MonoBehaviour
-        {
-            public Action onUpdate;
-            private void Update()
-            {
-                if (onUpdate != null)
-                    onUpdate();
-            }
-        }
+
 
         #endregion
     }

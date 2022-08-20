@@ -13,6 +13,7 @@ namespace Assets.Sources.Entities
         internal Vector3 scale;
         internal GameObject gameManager;
         internal TimeManager timeManager;
+        public string attachedTimerGuid;
 
         [SerializeField]
         internal Guid Guid { get; private set; }
@@ -46,7 +47,11 @@ namespace Assets.Sources.Entities
         internal void LaunchDelayedActionWithTimer(Action action, float duration, Card receivedCard, bool hasToStopWhenCardIsMoving)
         {
             //On affiche le timer
-            timeManager.CreateTimerGroup(action, duration, this, receivedCard, hasToStopWhenCardIsMoving);
+            var attachedTimerGuid = timeManager.CreateTimerGroup(action, duration, this, receivedCard, hasToStopWhenCardIsMoving);
+            this.attachedTimerGuid = attachedTimerGuid;
+            if (receivedCard != null)
+                receivedCard.attachedTimerGuid = attachedTimerGuid;
+
             //timeManager.InstanciateTimerSliderOnCard(action, duration, GetTransform(), receivedCardGuid, hasToStopWhenCardIsMoving);
         }
 

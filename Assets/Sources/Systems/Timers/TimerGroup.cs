@@ -17,6 +17,9 @@ namespace Assets.Sources.Systems.Timers
         public GameObject TimerSlider;
         public string Guid;
 
+        private GameObject timerHookGO;
+        private bool isFinished;
+
         /// <summary>
         /// Bottom card position for the slider GO to follow at update
         /// </summary>
@@ -27,11 +30,32 @@ namespace Assets.Sources.Systems.Timers
             Cards = VerifyOrder(cards);
             ComputeGuids(cards);
 
-            //Le FunctionTimer & le slider doivent être créés ici à partir des cartes reçues
-            //TimeManager.InstanciateTimerSliderOnCard
+            timerHookGO = new GameObject($"TimerHook-{Guid}", typeof(MonoBehaviourHook));
+            timerHookGO.GetComponent<MonoBehaviourHook>().onUpdate = Update;
+
             //On attache l'action à un timer
             //https://www.youtube.com/watch?v=1hsppNzx7_0
             FunctionTimer = FunctionTimer.Create(action, duration, hasToStopWhenCardIsMoving, Guid);
+        }
+
+        private void Update()
+        {
+            if (isFinished)
+                return;
+
+            isFinished = FunctionTimer.Update();
+
+            if (isFinished)
+                Stop();
+        }
+
+        public void Stop()
+        {
+            Cards.ForEach(card => card.attachedTimerGuid = "");
+            FunctionTimer = null;
+
+            isFinished = true;
+            UnityEngine.Object.Destroy(timerHookGO);
         }
 
         /// <summary>
@@ -57,6 +81,20 @@ namespace Assets.Sources.Systems.Timers
                     sb.Append("+");
             }
             Guid = sb.ToString();
+        }
+
+
+        /// <summary>
+        /// Dummy class to access MonoBehaviour functions
+        /// </summary>
+        private class MonoBehaviourHook : MonoBehaviour
+        {
+            public Action onUpdate;
+            private void Update()
+            {
+                if (onUpdate != null)
+                    onUpdate();
+            }
         }
 
     }

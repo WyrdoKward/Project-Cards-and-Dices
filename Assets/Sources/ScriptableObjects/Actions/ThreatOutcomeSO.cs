@@ -16,6 +16,9 @@ namespace Assets.Sources.ScriptableObjects.Actions
         /// </summary>
         public void ExecuteThreat()
         {
+            if (thisCardBodyGameObject == null)
+                return;
+
             ExecuteThreatBeginningHook();
             var continueLoop = ConcreteExecuteThreat();
             ExecuteThreatEndHook(continueLoop);
@@ -29,8 +32,8 @@ namespace Assets.Sources.ScriptableObjects.Actions
         protected virtual void ExecuteThreatBeginningHook() { }
         protected virtual void ExecuteThreatEndHook(bool continueLoop)
         {
-            var guid = thisCardBodyGameObject.GetComponentInChildren<Card>().Guid.ToString();
-            FunctionTimer.StopTimer(guid);
+            var guid = thisCardBodyGameObject.GetComponentInChildren<Card>().attachedTimerGuid;
+            TimeManager.StopTimer(guid);
             if (IsLoop && continueLoop)
             {
                 //Debug.Log("ExecuteThreatEndHook");
@@ -53,8 +56,8 @@ namespace Assets.Sources.ScriptableObjects.Actions
         protected virtual void SuccessToPreventBeginningHook() { }
         protected virtual void SuccessToPreventEndHook()
         {
-            var guid = thisCardBodyGameObject.GetComponentInChildren<Card>().Guid.ToString();
-            FunctionTimer.StopTimer(guid);
+            var guid = thisCardBodyGameObject.GetComponentInChildren<Card>().attachedTimerGuid;
+            TimeManager.StopTimer(guid);
         }
 
         /// <summary>

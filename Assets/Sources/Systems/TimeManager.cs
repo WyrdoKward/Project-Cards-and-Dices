@@ -11,7 +11,7 @@ namespace Assets.Sources.Systems
         public GameObject timerPrefab;
         public static List<TimerGroup> TimerGroups = new List<TimerGroup>();
 
-        internal void CreateTimerGroup(Action action, float duration, Card targetCard, Card receivedCard,/*RectTransform targetCard, string receivedCardGuid,*/ bool hasToStopWhenCardIsMoving)
+        internal string CreateTimerGroup(Action action, float duration, Card targetCard, Card receivedCard,/*RectTransform targetCard, string receivedCardGuid,*/ bool hasToStopWhenCardIsMoving)
         {
             var cards = new List<Card>() { targetCard, receivedCard };
             var timerGroup = new TimerGroup(cards, action, duration, hasToStopWhenCardIsMoving);
@@ -19,17 +19,48 @@ namespace Assets.Sources.Systems
             TimerGroups.Add(timerGroup);
 
             DisplayTimerSlider(duration, targetCard.GetTransform(), timerGroup.Guid);
+
+            return timerGroup.Guid;
         }
 
-        internal void StopTimer(string timerGroupGuid)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="timerGroupGuid"></param>
+        /// <param name="fromMovement">True si StopTimer apellé depuis un mouvement</param>
+        internal static void StopTimer(string timerGroupGuid, bool fromMovement = false)
         {
-            //TODO remplace FunctionTimer.StopTimer
-
             //Stoper le FunctionTimer
-            //Détruire le TimerSlider
-            //Disperser le stack de cartes
+            var hasBeenStopped = false;
+            for (var i = 0; i < TimerGroups.Count; i++)
+            {
+                if (TimerGroups[i].Guid == timerGroupGuid)
+                {
+                    if (fromMovement && !TimerGroups[i].FunctionTimer.HasToStopWhenCardIsMoving) //Pour ne pas stopper un timer qui doit persister après un mouvement
+                        continue;
+
+                    TimerGroups[i].Stop();
+                    TimerGroups.RemoveAt(i);
+                    i--; // On décrémente pour ne pas en skipper un, puisque qu'on en a viré un de la liste
+                    Debug.Log("Stopping " + timerGroupGuid + " OK");
+                    hasBeenStopped = true;
+                }
+            }
+
+            if (!hasBeenStopped)
+                Debug.Log("Stopping " + timerGroupGuid + " FAILED - no such timer exists");
+
+
+            //TODO Disperser le stack de cartes
         }
 
+        /// <summary>
+        /// A apeller si on veut vérifier & stopper un timer suite à un mouvement
+        /// </summary>
+        internal static void StopTimerFromMovement(string receivedCardGuid)
+        {
+            StopTimer(receivedCardGuid, true);
+        }
 
         private void DisplayTimerSlider(float duration, RectTransform targetCard, string timerGroupGuid)
         {
@@ -62,5 +93,6 @@ namespace Assets.Sources.Systems
             //Debug.Log("Timer is at " + spawedTimer.GetComponent<RectTransform>().position.ToString());
             //spawedTimer.transform.localScale = GlobalVariables.CardElementsScale;
         }
+
     }
 }
