@@ -6,6 +6,7 @@ namespace Assets.Sources.Entities
     internal class Threat : Card
     {
         public ThreatCardSO cardSO;
+        public Card handledBy;
         public override string GetName()
         {
             return cardSO.name;
@@ -15,19 +16,17 @@ namespace Assets.Sources.Entities
         {
             base.Start();
 
-            LaunchDelayedActionWithTimer(cardSO.Outcomes.ExecuteThreat, cardSO.ThreatTime, null, false);
+            LaunchDelayedActionWithTimer(cardSO.Outcomes.DetermineOutcome, cardSO.ThreatTime, null, false);
         }
-
 
         public override void TriggerActionsOnSnap(Card receivedCard)
         {
             //Debug.Log($"{cardSO.name} received {receivedCard.GetName()}");
             if (receivedCard is Follower follower)
-                LaunchDelayedActionWithTimer(DetermineOutcome, cardSO.NegateTime, receivedCard, true);
+                handledBy = follower;
         }
 
-
-        private void DetermineOutcome()
+        public void AttemptToResolve()
         {
             var rnd = Random.Range(0, 2);
             if (rnd == 0)

@@ -23,16 +23,22 @@ namespace Assets.Sources.ScriptableObjects.Actions
         }
 
         /// <summary>
-        /// Comportement lorsque la menace arrive à exécution à la fin de son timer
+        /// Comportement lorsque la menace arrive à la fin de son timer selon si elle est gérée ou non
         /// </summary>
-        public void ExecuteThreat()
+        public void DetermineOutcome()
         {
             if (thisCardBodyGameObject == null)
                 return;
 
-            ExecuteThreatBeginningHook();
-            var continueLoop = ConcreteExecuteThreat();
-            ExecuteThreatEndHook(continueLoop);
+            var threatCard = thisCardBodyGameObject.GetComponentInChildren<Card>() as Threat;
+            if (threatCard.handledBy != null)
+                threatCard.AttemptToResolve();
+            else
+            {
+                ExecuteThreatBeginningHook();
+                var continueLoop = ConcreteExecuteThreat();
+                ExecuteThreatEndHook(continueLoop);
+            }
         }
 
         /// <summary>
@@ -50,7 +56,7 @@ namespace Assets.Sources.ScriptableObjects.Actions
                 //Debug.Log("ExecuteThreatEndHook");
                 var duration = ((ThreatCardSO)baseCardSO).ThreatTime;
 
-                thisCardBodyGameObject.GetComponentInChildren<Card>().LaunchDelayedActionWithTimer(ExecuteThreat, duration, null /*thisCardBodyGameObject.GetComponentInChildren<Card>()*/, false);
+                thisCardBodyGameObject.GetComponentInChildren<Card>().LaunchDelayedActionWithTimer(DetermineOutcome, duration, null /*thisCardBodyGameObject.GetComponentInChildren<Card>()*/, false);
             }
         }
 
