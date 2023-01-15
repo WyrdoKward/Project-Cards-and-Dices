@@ -17,7 +17,7 @@ namespace Assets.Sources.Systems.Timers
         public GameObject TimerSlider;
         public string Guid;
 
-        private GameObject timerHookGO;
+        private readonly GameObject timerHookGO;
         private bool isFinished;
 
         /// <summary>

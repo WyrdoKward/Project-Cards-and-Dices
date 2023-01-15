@@ -7,11 +7,8 @@ public class Timer : MonoBehaviour
     public Text timerText;
     public float maxTime;
 
-    private bool isRunning;
-
     private void Start()
     {
-        isRunning = true;
         timerSlider.maxValue = maxTime;
         timerSlider.value = maxTime;
     }

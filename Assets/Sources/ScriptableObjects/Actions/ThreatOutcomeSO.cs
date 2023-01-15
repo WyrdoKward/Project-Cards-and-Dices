@@ -5,11 +5,22 @@ using UnityEngine;
 
 namespace Assets.Sources.ScriptableObjects.Actions
 {
+    /// <summary>
+    /// Method template design pattern to handle threats
+    /// </summary>
     public abstract class ThreatOutcomeSO : ScriptableObject
     {
-        public GameObject thisCardBodyGameObject;
         public BaseCardSO baseCardSO;
         public bool IsLoop;
+
+        protected GameObject thisCardBodyGameObject;
+
+        public GameObject GameManager { get; internal set; }
+
+        internal void SetCardBodyGameObject(GameObject cardBodyGO)
+        {
+            thisCardBodyGameObject = cardBodyGO;
+        }
 
         /// <summary>
         /// Comportement lorsque la menace arrive à exécution à la fin de son timer
@@ -27,7 +38,7 @@ namespace Assets.Sources.ScriptableObjects.Actions
         /// <summary>
         /// Implémentation concrète de la threat
         /// </summary>
-        /// <returns>>False si la meance doit arrêter de boucler</returns>
+        /// <returns>False si la meance doit arrêter de boucler</returns>
         protected abstract bool ConcreteExecuteThreat();
         protected virtual void ExecuteThreatBeginningHook() { }
         protected virtual void ExecuteThreatEndHook(bool continueLoop)
@@ -39,7 +50,7 @@ namespace Assets.Sources.ScriptableObjects.Actions
                 //Debug.Log("ExecuteThreatEndHook");
                 var duration = ((ThreatCardSO)baseCardSO).ThreatTime;
 
-                thisCardBodyGameObject.GetComponentInChildren<Card>().LaunchDelayedActionWithTimer(ExecuteThreat, duration, thisCardBodyGameObject.GetComponentInChildren<Card>(), false);
+                thisCardBodyGameObject.GetComponentInChildren<Card>().LaunchDelayedActionWithTimer(ExecuteThreat, duration, null /*thisCardBodyGameObject.GetComponentInChildren<Card>()*/, false);
             }
         }
 

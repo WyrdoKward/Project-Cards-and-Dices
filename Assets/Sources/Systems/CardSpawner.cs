@@ -2,6 +2,7 @@
 using Assets.Sources.Entities;
 using Assets.Sources.Providers;
 using Assets.Sources.ScriptableObjects.Cards;
+using Assets.Sources.Tools;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,6 +32,24 @@ namespace Assets.Sources.Systems
             // generate cards with the word attack in the description
             //GenerateCards(card => card.name.ToLower().Contains("wood"));
         }
+
+        /// <summary>
+        /// Utiliser les poids dans le random plutot que de multiplier les objets ?
+        /// </summary>
+        /// <param name="weightedDict"></param>
+        public void GenerateRandomCardFromWeightedList(DictionaryForInspector<BaseCardSO, int> weightedDict)
+        {
+            var res = new List<BaseCardSO>();
+            for (var i = 0; i < weightedDict.Keys.Count; i++)
+            {
+                for (var j = 0; j < weightedDict.Values[i]; j++)
+                {
+                    res.Add(weightedDict.Keys[i]);
+                }
+            }
+            GenerateRandomCardFromList(res);
+        }
+
 
         public void GenerateRandomCardFromList(IEnumerable<BaseCardSO> cards)
         {

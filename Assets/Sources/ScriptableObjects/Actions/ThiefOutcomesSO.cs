@@ -7,7 +7,7 @@ namespace Assets.Sources.ScriptableObjects.Actions
     /// <summary>
     /// A implémenter sur tous les ThreatSO de type "voleur"
     /// </summary>
-    [CreateAssetMenu(fileName = "New Thief", menuName = "Card/ThreatOutcome/ThiefActions")]
+    [CreateAssetMenu(fileName = "ThiefOutcomes", menuName = "Card/ThreatOutcome/ThiefOutcomes")]
     internal class ThiefOutcomesSO : ThreatOutcomeSO
     {
         protected override bool ConcreteExecuteThreat()
