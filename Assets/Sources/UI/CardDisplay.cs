@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Sources.Display
+namespace Assets.Sources.UI
 {
     public class CardDisplay : MonoBehaviour
     {

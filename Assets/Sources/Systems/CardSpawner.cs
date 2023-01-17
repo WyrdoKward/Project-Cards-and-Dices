@@ -1,8 +1,8 @@
-﻿using Assets.Sources.Display;
-using Assets.Sources.Entities;
+﻿using Assets.Sources.Entities;
 using Assets.Sources.Providers;
 using Assets.Sources.ScriptableObjects.Cards;
 using Assets.Sources.Tools;
+using Assets.Sources.UI;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
