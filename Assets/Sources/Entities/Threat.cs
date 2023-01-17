@@ -7,6 +7,9 @@ namespace Assets.Sources.Entities
     {
         public ThreatCardSO cardSO;
         public Card handledBy;
+
+        public override Color DefaultSliderColor { get => GlobalVariables.THREAT_DefaultSliderColor; }
+
         public override string GetName()
         {
             return cardSO.name;

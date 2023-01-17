@@ -15,8 +15,11 @@ namespace Assets.Sources.Entities
         internal TimeManager timeManager;
         public string attachedTimerGuid;
 
+        protected Color defaultSliderColor;
+
         [SerializeField]
         internal Guid Guid { get; private set; }
+        public abstract Color DefaultSliderColor { get; }
 
         public abstract string GetName();
 

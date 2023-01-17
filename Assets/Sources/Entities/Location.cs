@@ -1,5 +1,6 @@
 ﻿using Assets.Sources.ScriptableObjects.Cards;
 using Assets.Sources.Systems;
+using UnityEngine;
 
 namespace Assets.Sources.Entities
 {
@@ -9,6 +10,7 @@ namespace Assets.Sources.Entities
         public FunctionTimer runningAction;
 
         public float DefaultExplorationTime = 10f;
+        public override Color DefaultSliderColor { get => GlobalVariables.LOCATION_DefaultSliderColor; }
 
 
         public new void Start()

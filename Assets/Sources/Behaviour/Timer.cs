@@ -1,3 +1,4 @@
+using Assets.Sources.Entities;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,8 @@ public class Timer : MonoBehaviour
     {
         var currentSliderTime = timerSlider.value - Time.deltaTime;
 
+        UpdateSliderColor(currentSliderTime);
+
         var minutes = Mathf.FloorToInt(currentSliderTime / 60);
         var seconds = Mathf.FloorToInt(currentSliderTime % 60);
 
@@ -29,6 +32,25 @@ public class Timer : MonoBehaviour
         }
         else
             DestroySelf();
+    }
+
+    private void UpdateSliderColor(float currentSliderTime)
+    {
+        var thisCard = (Card)transform.parent.gameObject.GetComponent("Card");
+        var sliderFillImage = timerSlider.transform.Find("Fill Area/Fill").GetComponent<Image>();
+        var currentColor = sliderFillImage.color;
+        var targetColor = thisCard.DefaultSliderColor;
+
+        //Determine color according to the situation
+        if (thisCard is Threat thisThreat)
+        {
+            if (thisThreat.handledBy != null)
+                targetColor = Color.yellow;
+        }
+
+        //Update the color
+        if (targetColor != currentColor)
+            sliderFillImage.color = Color.Lerp(currentColor, targetColor, currentSliderTime);
     }
 
     private void DestroySelf()
