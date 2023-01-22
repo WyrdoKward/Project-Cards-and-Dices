@@ -14,6 +14,7 @@ namespace Assets.Sources.ScriptableObjects.Actions
         public bool IsLoop;
 
         protected GameObject thisCardBodyGameObject;
+        private Threat _thisCard { get => thisCardBodyGameObject.GetComponentInChildren<Card>() as Threat; }
 
         public GameObject GameManager { get; internal set; }
 
@@ -30,9 +31,8 @@ namespace Assets.Sources.ScriptableObjects.Actions
             if (thisCardBodyGameObject == null)
                 return;
 
-            var threatCard = thisCardBodyGameObject.GetComponentInChildren<Card>() as Threat;
-            if (threatCard.handledBy != null)
-                threatCard.AttemptToResolve();
+            if (_thisCard.handledBy != null)
+                _thisCard.AttemptToResolve();
             else
             {
                 ExecuteThreatBeginningHook();
@@ -49,15 +49,9 @@ namespace Assets.Sources.ScriptableObjects.Actions
         protected virtual void ExecuteThreatBeginningHook() { }
         protected virtual void ExecuteThreatEndHook(bool continueLoop)
         {
-            var guid = thisCardBodyGameObject.GetComponentInChildren<Card>().attachedTimerGuid;
+            var guid = _thisCard.attachedTimerGuid;
             TimeManager.StopTimer(guid);
-            if (IsLoop && continueLoop)
-            {
-                //Debug.Log("ExecuteThreatEndHook");
-                var duration = ((ThreatCardSO)baseCardSO).ThreatTime;
-
-                thisCardBodyGameObject.GetComponentInChildren<Card>().LaunchDelayedActionWithTimer(DetermineOutcome, duration, null /*thisCardBodyGameObject.GetComponentInChildren<Card>()*/, false);
-            }
+            LoopIfNeeded(continueLoop);
         }
 
         /// <summary>
@@ -73,7 +67,7 @@ namespace Assets.Sources.ScriptableObjects.Actions
         protected virtual void SuccessToPreventBeginningHook() { }
         protected virtual void SuccessToPreventEndHook()
         {
-            var guid = thisCardBodyGameObject.GetComponentInChildren<Card>().attachedTimerGuid;
+            var guid = _thisCard.attachedTimerGuid;
             TimeManager.StopTimer(guid);
         }
 
@@ -90,8 +84,23 @@ namespace Assets.Sources.ScriptableObjects.Actions
         protected virtual void FailureToPreventBeginningHook() { }
         protected virtual void FailureToPreventEndHook()
         {
+            var guid = _thisCard.attachedTimerGuid;
+            TimeManager.StopTimer(guid);
+            LoopIfNeeded(true);
             //Ejecter la carte du follower
-            thisCardBodyGameObject.GetComponentInChildren<Card>().Receivedcard.GetComponent<Card>().ReturnToLastPosition();
+            //_thisCard.Receivedcard.GetComponent<Card>().ReturnToLastPosition();
+            _thisCard.SnapOutOfIt(true);
+        }
+
+        private void LoopIfNeeded(bool continueLoop)
+        {
+            if (IsLoop && continueLoop)
+            {
+                //Debug.Log("ExecuteThreatEndHook");
+                var duration = ((ThreatCardSO)baseCardSO).ThreatTime;
+
+                _thisCard.LaunchDelayedActionWithTimer(DetermineOutcome, duration, null, false);
+            }
         }
     }
 }

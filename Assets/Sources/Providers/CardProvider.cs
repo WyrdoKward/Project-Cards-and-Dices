@@ -27,6 +27,9 @@ namespace Assets.Sources.Providers
             return res.transform.parent.gameObject;
         }
 
+        /// <summary>
+        /// Returs a list of all the card names currently in game
+        /// </summary>
         public List<string> ComputeInGameCardsList()
         {
             var res = new List<string>();
@@ -41,7 +44,7 @@ namespace Assets.Sources.Providers
             return res;
         }
 
-        private List<GameObject> AllCardGameObjectsInGame()
+        public List<GameObject> AllCardGameObjectsInGame()
         {
             var res = new List<GameObject>();
             foreach (Transform child in CardContainerGO.transform)

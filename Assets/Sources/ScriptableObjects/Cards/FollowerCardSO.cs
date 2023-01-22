@@ -18,6 +18,7 @@ namespace Assets.Sources.ScriptableObjects.Cards
 
             cardBodyGO.AddComponent<Follower>();
             cardBodyGO.GetComponent<Follower>().cardSO = this;
+            //cardBodyGO.AddComponent<DraggableFollower>();
         }
     }
 }

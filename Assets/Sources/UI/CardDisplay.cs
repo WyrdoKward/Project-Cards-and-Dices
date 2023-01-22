@@ -1,4 +1,5 @@
-﻿using Assets.Sources.ScriptableObjects.Cards;
+﻿using Assets.Sources.Entities;
+using Assets.Sources.ScriptableObjects.Cards;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,8 @@ namespace Assets.Sources.UI
         public Text NameText;
         public Text DescriptionText;
         public Image ArtworkImage;
+
+        private Card _thisCard { get => (Card)transform.parent.gameObject.GetComponent("Card"); }
 
         void Start()
         {

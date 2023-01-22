@@ -9,7 +9,7 @@ namespace Assets.Sources.Entities
 
         public override Color DefaultSliderColor { get => GlobalVariables.FOLLOWER_DefaultSliderColor; }
 
-        public override void TriggerActionsOnSnap(Card receivedCard)
+        protected override void TriggerActionsOnSnap(Card receivedCard)
         {
 
         }
@@ -18,6 +18,11 @@ namespace Assets.Sources.Entities
         public override string GetName()
         {
             return cardSO.name;
+        }
+
+        public override Color ComputeSpecificSliderColor()
+        {
+            return DefaultSliderColor;
         }
     }
 }

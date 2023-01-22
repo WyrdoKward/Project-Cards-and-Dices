@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Assets.Sources.Systems.Timers
 {
     /// <summary>
-    /// Regroup cards and timers
+    /// Regroup cards and timers + the associated action to trigger
     /// </summary>
     public class TimerGroup
     {
@@ -67,7 +67,9 @@ namespace Assets.Sources.Systems.Timers
         {
             for (var i = 0; i < Cards.Count; i++)
             {
-                if (i != 0)
+                if (i != 0) continue;
+
+                if (Cards[0].Receivedcard == Cards[i]) // vérifier qu'ils sont attachés sinon si elle a déjà été dispersée elle revenir sur la carte attachée initiale
                     Cards[i].ReturnToLastPosition();
             }
         }

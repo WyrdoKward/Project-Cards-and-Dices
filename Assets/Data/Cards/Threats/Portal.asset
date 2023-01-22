@@ -15,7 +15,6 @@ MonoBehaviour:
   name: Portal
   description: Something is about to come out of it...
   artwork: {fileID: 21300000, guid: 41d553dde86321c47822694d6b3e3464, type: 3}
-  isUnique: 0
+  isUnique: 1
   ThreatTime: 5
-  NegateTime: 5
   Outcomes: {fileID: 11400000, guid: 684ce5e6707f03c45865d91055784fab, type: 2}

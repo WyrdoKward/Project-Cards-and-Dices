@@ -4,22 +4,26 @@ using Assets.Sources.UI;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Sources.Systems
 {
     public class TimeManager : MonoBehaviour
     {
         public GameObject timerPrefab;
-        public static List<TimerGroup> TimerGroups = new List<TimerGroup>();
+        /// <summary>
+        /// All timers in game
+        /// </summary>
+        private static List<TimerGroup> TimerGroups = new List<TimerGroup>();
 
-        internal string CreateTimerGroup(Action action, float duration, Card targetCard, Card receivedCard,/*RectTransform targetCard, string receivedCardGuid,*/ bool hasToStopWhenCardIsMoving)
+        internal string CreateTimerGroup(Action action, Color sliderColor, float duration, Card targetCard, Card receivedCard, bool hasToStopWhenCardIsMoving)
         {
             var cards = new List<Card>() { targetCard, receivedCard };
             var timerGroup = new TimerGroup(cards, action, duration, hasToStopWhenCardIsMoving);
 
             TimerGroups.Add(timerGroup);
 
-            DisplayTimerSlider(duration, targetCard.GetTransform(), timerGroup.Guid);
+            DisplayTimerSlider(duration, targetCard.GetTransform(), timerGroup.Guid, sliderColor);
 
             return timerGroup.Guid;
         }
@@ -28,7 +32,7 @@ namespace Assets.Sources.Systems
         /// 
         /// </summary>
         /// <param name="timerGroupGuid"></param>
-        /// <param name="fromMovement">True si StopTimer apellé depuis un mouvement</param>
+        /// <param name="fromMovement">True si StopTimer apellé depuis un mouvement et que le timer doit persister</param>
         internal static void StopTimer(string timerGroupGuid, bool fromMovement = false)
         {
             //Stoper le FunctionTimer
@@ -60,7 +64,7 @@ namespace Assets.Sources.Systems
             StopTimer(receivedCardGuid, true);
         }
 
-        private void DisplayTimerSlider(float duration, RectTransform targetCard, string timerGroupGuid)
+        private void DisplayTimerSlider(float duration, RectTransform targetCard, string timerGroupGuid, Color sliderColor)
         {
             //Calcul de la position du slider
             var timerPosition = targetCard.position;
@@ -77,6 +81,8 @@ namespace Assets.Sources.Systems
             spawedTimer.name = timerGroupGuid;
             spawedTimer.GetComponent<Timer>().maxTime = duration;
             spawedTimer.GetComponent<Timer>().timerSlider.value = duration;
+            spawedTimer.GetComponent<Timer>().timerSlider.transform.Find("Fill Area/Fill").GetComponent<Image>().color = sliderColor;
+
 
             spawedTimer.transform.SetParent(targetCard.Find("Card Body"));
             spawedTimer.transform.localScale = new Vector3(1, 1, 1);

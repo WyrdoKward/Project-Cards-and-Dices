@@ -41,14 +41,7 @@ namespace Assets.Sources.UI
             var thisCard = (Card)transform.parent.gameObject.GetComponent("Card");
             var sliderFillImage = timerSlider.transform.Find("Fill Area/Fill").GetComponent<Image>();
             var currentColor = sliderFillImage.color;
-            var targetColor = thisCard.DefaultSliderColor;
-
-            //Determine color according to the situation
-            if (thisCard is Threat thisThreat)
-            {
-                if (thisThreat.handledBy != null)
-                    targetColor = Color.yellow;
-            }
+            var targetColor = thisCard.ComputeSpecificSliderColor();
 
             //Update the color
             if (targetColor != currentColor)

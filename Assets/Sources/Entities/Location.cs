@@ -20,7 +20,7 @@ namespace Assets.Sources.Entities
 
         public override string GetName() => cardSO.name;
 
-        public override void TriggerActionsOnSnap(Card receivedCard)
+        protected override void TriggerActionsOnSnap(Card receivedCard)
         {
             //Debug.Log($"{cardSO.name} received {receivedCard.GetName()}");
             if (receivedCard is Follower follower)
@@ -32,7 +32,13 @@ namespace Assets.Sources.Entities
             //Calcul de la durée à partir de this et receivedCard
             var duration = DefaultExplorationTime;
 
-            LaunchDelayedActionWithTimer(SpawnLoot, duration, follower, true);
+            LaunchDelayedActionWithTimer(EndExploration, duration, follower, true);
+        }
+
+        private void EndExploration()
+        {
+            SpawnLoot();
+            SnapOutOfIt(true);
         }
 
         private void SpawnLoot()
@@ -41,7 +47,19 @@ namespace Assets.Sources.Entities
             gameManager.GetComponent<CardSpawner>().GenerateRandomCardFromList(cardSO.Loot);
 
             //TODO ejecter receivedCard
-            Receivedcard.GetComponent<Card>().ReturnToLastPosition();
+            if (Receivedcard != null)
+                Receivedcard.GetComponent<Card>().ReturnToLastPosition();
+        }
+
+        public override void SnapOutOfIt(bool expulseCardOnUI = false)
+        {
+            base.SnapOutOfIt(expulseCardOnUI);
+            TimeManager.StopTimer(attachedTimerGuid);
+        }
+
+        public override Color ComputeSpecificSliderColor()
+        {
+            return DefaultSliderColor;
         }
     }
 }

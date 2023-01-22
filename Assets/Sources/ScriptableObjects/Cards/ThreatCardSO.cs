@@ -8,7 +8,6 @@ namespace Assets.Sources.ScriptableObjects.Cards
     internal class ThreatCardSO : BaseCardSO
     {
         public float ThreatTime;
-        public float NegateTime;
 
         public ThreatOutcomeSO Outcomes; // Voir pour le DP Decorator ou Strategy. Et commencer par coder le spawn de la carte pour voir ce qui est accessible depuis le reste ?
 
