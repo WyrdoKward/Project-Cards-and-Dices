@@ -1,7 +1,6 @@
 using Assets.Sources;
 using Assets.Sources.Entities;
 using Assets.Sources.Providers;
-using Assets.Sources.Systems;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -41,13 +40,13 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
         var allCards = GameObject.Find("_GameManager").GetComponent<CardProvider>().AllCardGameObjectsInGame();
         lastCardThisWasSnappedOnto = allCards.FirstOrDefault(go => go.GetComponentInChildren<Card>().HasReceivedCardWithGuid(thisCardGuid));
 
-        //TODO mettre ca au endDrag
+        //Inutile ici car c'est le ENdDrag qui détruit le timer au SnapOut
         //Destruction du Timer slider & function
-        var draggerCardGuid = eventData.pointerDrag.GetComponent<Card>().Guid.ToString();
-        var timerToDestroy = GameObject.Find($"TimerSlider_{draggerCardGuid}");
-        if (timerToDestroy != null)
-            Destroy(timerToDestroy);
-        TimeManager.StopTimerFromMovement(draggerCardGuid);
+        //var draggerCardGuid = eventData.pointerDrag.GetComponent<Card>().Guid.ToString();
+        //var timerToDestroy = GameObject.Find($"TimerSlider_{draggerCardGuid}");
+        //if (timerToDestroy != null)
+        //    Destroy(timerToDestroy);
+        //TimeManager.StopTimerFromMovement(draggerCardGuid);
 
     }
 

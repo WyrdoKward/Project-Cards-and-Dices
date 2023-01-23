@@ -51,11 +51,18 @@ namespace Assets.Sources.Systems.Timers
 
         public void Stop()
         {
-            Cards.ForEach(card => card.attachedTimerGuid = "");
-            FunctionTimer = null;
+            //Delete Slider
+            var sliderToDestroy = GameObject.Find(Cards[0].attachedTimerGuid);
+            if (sliderToDestroy != null)
+                UnityEngine.Object.Destroy(sliderToDestroy);
 
+            // Delete hook GO
             isFinished = true;
             UnityEngine.Object.Destroy(timerHookGO);
+
+            //Reinit cards and their positions
+            Cards.ForEach(card => card.attachedTimerGuid = "");
+            FunctionTimer = null;
             DisperseCards();
         }
 
