@@ -16,5 +16,9 @@ namespace Assets.Sources
         public static readonly Color THREAT_DefaultSliderColor = Color.red;
         public static readonly Color RESOURCE_DefaultSliderColor = Color.white;
         #endregion
+
+        #region animationUI
+        public static readonly float DefaultLerpingValue = 5f;
+        #endregion
     }
 }
