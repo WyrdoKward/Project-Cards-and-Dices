@@ -11,7 +11,6 @@ namespace Assets.Sources.ScriptableObjects.Actions
     public abstract class ThreatOutcomeSO : ScriptableObject
     {
         public BaseCardSO CardSO; //La Base class évite la référence circulaire
-        public bool IsLoop;
 
         protected GameObject thisCardBodyGameObject;
         private Threat _thisCard { get => thisCardBodyGameObject.GetComponentInChildren<Card>() as Threat; }

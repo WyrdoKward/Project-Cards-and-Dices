@@ -6,7 +6,7 @@ namespace Assets.Sources.ScriptableObjects.Cards
     [CreateAssetMenu(fileName = "New PNJ", menuName = "Card/PNJ")]
     internal class PNJCardSO : BaseCardSO
     {
-        public override Color color => Color.magenta;
+        public override Color BgColor => Color.magenta;
 
         public override void InitializedCardWithScriptableObject(GameObject cardBodyGO)
         {
