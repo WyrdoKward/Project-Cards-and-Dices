@@ -7,6 +7,7 @@ namespace Assets.Sources.ScriptableObjects.Cards
     [CreateAssetMenu(fileName = "New Location", menuName = "Card/Location")]
     public class LocationCardSO : BaseCardSO
     {
+        public override Color BgColor => new Color(0, 0, 1);
         public List<BaseCardSO> Loot;
 
         public LocationCardSO()
@@ -15,6 +16,8 @@ namespace Assets.Sources.ScriptableObjects.Cards
 
         public override void InitializedCardWithScriptableObject(GameObject cardBodyGO)
         {
+            base.InitializedCardWithScriptableObject(cardBodyGO);
+
             cardBodyGO.AddComponent<Location>();
             cardBodyGO.GetComponent<Location>().cardSO = this;
         }

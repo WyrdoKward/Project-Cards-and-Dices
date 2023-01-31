@@ -1,8 +1,9 @@
-﻿using Assets.Sources.ScriptableObjects.Cards;
+﻿using Assets.Sources.Entities;
+using Assets.Sources.ScriptableObjects.Cards;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Sources.Display
+namespace Assets.Sources.UI
 {
     public class CardDisplay : MonoBehaviour
     {
@@ -12,9 +13,11 @@ namespace Assets.Sources.Display
         public Text DescriptionText;
         public Image ArtworkImage;
 
+        private Card _thisCard { get => (Card)transform.parent.gameObject.GetComponent("Card"); }
+
         void Start()
         {
-            Debug.Log("Start");
+            //Debug.Log("Start");
             if (cardSO != null)
                 LoadCardData(cardSO);
             else
@@ -23,7 +26,7 @@ namespace Assets.Sources.Display
 
         public void LoadCardData(BaseCardSO data)
         {
-            Debug.Log($"LoadCardData for {data.name}");
+            //Debug.Log($"LoadCardData for {data.name}");
             NameText.text = data.name;
             DescriptionText.text = data.description;
             ArtworkImage.sprite = data.artwork;

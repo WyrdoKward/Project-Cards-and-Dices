@@ -1,6 +1,7 @@
 using Assets.Sources;
 using Assets.Sources.Entities;
-using Assets.Sources.Systems;
+using Assets.Sources.Providers;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -12,6 +13,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
     private bool isBeeingDragged;
+    private GameObject lastCardThisWasSnappedOnto;
 
     public Vector3 Lastposition;
 
@@ -22,7 +24,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
         isBeeingDragged = false;
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {
         Debug.Log("OnBeginDrag");
 
@@ -33,46 +35,37 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
         GetComponentInParent<Canvas>().sortingOrder = GlobalVariables.OnDragCardSortingLayer;
         isBeeingDragged = true;
 
-        //TODO mettre ca au endDrag
+        //on sauvegarde la dernière carte sur laquelle on était snappé
+        var thisCardGuid = eventData.pointerDrag.GetComponent<Card>().Guid;
+        var allCards = GameObject.Find("_GameManager").GetComponent<CardProvider>().AllCardGameObjectsInGame();
+        lastCardThisWasSnappedOnto = allCards.FirstOrDefault(go => go.GetComponentInChildren<Card>().HasReceivedCardWithGuid(thisCardGuid));
+
+        //Inutile ici car c'est le ENdDrag qui détruit le timer au SnapOut
         //Destruction du Timer slider & function
-        var receivedCardGuid = eventData.pointerDrag.GetComponent<Card>().Guid.ToString();
-        Destroy(GameObject.Find($"TimerSlider_{receivedCardGuid}"));
-        FunctionTimer.StopTimer(receivedCardGuid);
+        //var draggerCardGuid = eventData.pointerDrag.GetComponent<Card>().Guid.ToString();
+        //var timerToDestroy = GameObject.Find($"TimerSlider_{draggerCardGuid}");
+        //if (timerToDestroy != null)
+        //    Destroy(timerToDestroy);
+        //TimeManager.StopTimerFromMovement(draggerCardGuid);
 
     }
 
-    public void OnDrag(PointerEventData eventData)
+    void IDragHandler.OnDrag(PointerEventData eventData)
     {
         rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
 
-    /// <summary>
-    /// Is called when a draggableObject is drop in here => implement this on the target
-    /// </summary>
-    /// <param name="eventData">The card beeing moved</param>
-    public void OnDrop(PointerEventData eventData)
+    //protected virtual void OnEndDrag(PointerEventData eventData)
+    void IEndDragHandler.OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("OnDrop");
-        if (eventData.pointerDrag != null)
+        Debug.Log("OnEndDrag base");
+
+        //Si elle était ReceivedCard d'un autre carte il faut l'enlever
+        if (lastCardThisWasSnappedOnto != null)
         {
-            //Snapping
-            Vector2 targetPosition = GetComponent<RectTransform>().anchoredPosition;
-            targetPosition.y -= 70 * GetComponent<RectTransform>().localScale.y;
-            eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = targetPosition;
-
-            //Put dragged card on top
-            eventData.pointerDrag.GetComponentInParent<Canvas>().sortingOrder = GetComponentInParent<Canvas>().sortingOrder + 1;
-            eventData.pointerDrag.GetComponent<Draggable>().isBeeingDragged = false;
-
-            Card targetCard = GetComponent<Card>();
-            targetCard.Receivedcard = eventData.pointerDrag;
-            targetCard.TriggerActionsOnSnap(eventData.pointerDrag.GetComponent<Card>());
+            lastCardThisWasSnappedOnto.GetComponentInChildren<Card>().SnapOutOfIt(false);
         }
-    }
 
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        Debug.Log("OnEndDrag");
         canvasGroup.alpha = 1;
         canvasGroup.blocksRaycasts = true;
         if (isBeeingDragged)
@@ -80,5 +73,30 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
 
         isBeeingDragged = false;
 
+    }
+
+    /// <summary>
+    /// Is called when a draggableObject is drop in here => implement this on the target
+    /// </summary>
+    /// <param name="eventData">The card beeing moved</param>
+    void IDropHandler.OnDrop(PointerEventData eventData)
+    {
+        //Appellé quand on reçoit une carte
+        Debug.Log("OnDrop");
+        if (eventData.pointerDrag != null)
+        {
+            //Snapping UI
+            var targetPosition = GetComponent<RectTransform>().anchoredPosition;
+            targetPosition.y -= 70 * GetComponent<RectTransform>().localScale.y;
+            eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = targetPosition;
+
+            //Put dragged card on top
+            eventData.pointerDrag.GetComponentInParent<Canvas>().sortingOrder = GetComponentInParent<Canvas>().sortingOrder + 1;
+            eventData.pointerDrag.GetComponent<Draggable>().isBeeingDragged = false;
+
+            //Buisiness on snapping
+            var targetCard = GetComponent<Card>();
+            targetCard.SnapOnIt(eventData.pointerDrag);
+        }
     }
 }

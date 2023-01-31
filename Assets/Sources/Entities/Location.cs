@@ -10,53 +10,56 @@ namespace Assets.Sources.Entities
         public FunctionTimer runningAction;
 
         public float DefaultExplorationTime = 10f;
+        public override Color DefaultSliderColor { get => GlobalVariables.LOCATION_DefaultSliderColor; }
 
-        GameObject gameManager;
 
-        public void Start()
+        public new void Start()
         {
-            gameManager = GameObject.Find("_GameManager");
+            base.Start();
         }
 
-        public override string GetName()
+        public override string GetName() => cardSO.name;
+
+        protected override void TriggerActionsOnSnap(Card receivedCard)
         {
-            return cardSO.name;
-        }
-        /// <summary>
-        /// Triggered when this card receives an other card
-        /// </summary>
-        public override void TriggerActionsOnSnap(Card receivedCard)
-        {
+            //Debug.Log($"{cardSO.name} received {receivedCard.GetName()}");
             if (receivedCard is Follower follower)
                 Explore(follower);
         }
 
         private void Explore(Follower follower)
         {
-            Debug.Log($"{cardSO.name} received {follower.name}");
             //Calcul de la durée à partir de this et receivedCard
             var duration = DefaultExplorationTime;
 
-            //Calcul de la position du slider
-            var timerPosition = GetComponent<RectTransform>().position;
-            //Debug.Log(cardSO.name + " is at " + timerPosition.ToString());
-            timerPosition.y += 20;
+            LaunchDelayedActionWithTimer(EndExploration, duration, follower, true);
+        }
 
-            //On affiche le timer
-            gameManager.GetComponent<TimeManager>().InstanciateTimerSliderOnCard(duration, timerPosition, this.transform.parent.GetComponent<RectTransform>(), follower.Guid.ToString());
-
-
-            //https://www.youtube.com/watch?v=1hsppNzx7_0
-            FunctionTimer.Create(SpawnLoot, duration, follower.Guid.ToString());
+        private void EndExploration()
+        {
+            SpawnLoot();
+            SnapOutOfIt(true);
         }
 
         private void SpawnLoot()
         {
-            Debug.Log("Spawning loot...");
+            //Debug.Log($"{cardSO.name} is spawning loot...");
             gameManager.GetComponent<CardSpawner>().GenerateRandomCardFromList(cardSO.Loot);
 
             //TODO ejecter receivedCard
-            Receivedcard.GetComponent<Card>().ReturnToLastPosition();
+            if (Receivedcard != null)
+                Receivedcard.GetComponent<Card>().ReturnToLastPosition();
+        }
+
+        public override void SnapOutOfIt(bool expulseCardOnUI = false)
+        {
+            base.SnapOutOfIt(expulseCardOnUI);
+            TimeManager.StopTimer(attachedTimerGuid);
+        }
+
+        public override Color ComputeSpecificSliderColor()
+        {
+            return DefaultSliderColor;
         }
     }
 }

@@ -8,8 +8,8 @@ public class MainGame : MonoBehaviour
     void Start()
     {
 
-        Debug.Log($"{name} is at Z localposition {gameObject.transform.localPosition.z}");
-        Debug.Log($"{name} is at Z worldposition {gameObject.transform.position.z}");
+        //Debug.Log($"{name} is at Z localposition {gameObject.transform.localPosition.z}");
+        //Debug.Log($"{name} is at Z worldposition {gameObject.transform.position.z}");
     }
 
     // Update is called once per frame

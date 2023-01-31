@@ -6,6 +6,7 @@ namespace Assets.Sources.ScriptableObjects.Cards
     [CreateAssetMenu(fileName = "New Follower", menuName = "Card/Follower")]
     public class FollowerCardSO : BaseCardSO
     {
+        public override Color BgColor => new Color(0, 1, 1);
         public FollowerCardSO()
         {
         }
@@ -13,8 +14,11 @@ namespace Assets.Sources.ScriptableObjects.Cards
 
         public override void InitializedCardWithScriptableObject(GameObject cardBodyGO)
         {
+            base.InitializedCardWithScriptableObject(cardBodyGO);
+
             cardBodyGO.AddComponent<Follower>();
             cardBodyGO.GetComponent<Follower>().cardSO = this;
+            //cardBodyGO.AddComponent<DraggableFollower>();
         }
     }
 }

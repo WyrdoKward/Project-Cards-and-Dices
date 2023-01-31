@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf0ee3183c1e714f95203ecf930ef89, type: 3}
+  m_Name: PortalOutcomes
+  m_EditorClassIdentifier: 
+  baseCardSO: {fileID: 11400000, guid: 11799b97152ba7149bc67c2c64d8cb98, type: 2}
+  IsLoop: 1
+  EnemiesSO:
+  - {fileID: 11400000, guid: b1c9d654ed79ed04cbfb0e7425bef92a, type: 2}
+  - {fileID: 11400000, guid: e5eb1830d2da667439d1b477c6c7b4eb, type: 2}
+  EnemiesWeights: 0300000001000000
+  Loot: []

@@ -1,8 +1,11 @@
-﻿using Assets.Sources.Display;
-using Assets.Sources.Entities;
+﻿using Assets.Sources.Entities;
+using Assets.Sources.Providers;
 using Assets.Sources.ScriptableObjects.Cards;
+using Assets.Sources.Tools;
+using Assets.Sources.UI;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 namespace Assets.Sources.Systems
@@ -13,6 +16,7 @@ namespace Assets.Sources.Systems
         //public List<BaseCardSO> AllCardsData;
         public GameObject CardContainerGO;
         public BaseCardSO defaultLoot;
+        private CardProvider cardProvider;
 
         //Prefabs with SO and spawn
         //https://www.youtube.com/watch?v=i9oVPmgjw-U
@@ -21,12 +25,31 @@ namespace Assets.Sources.Systems
 
         private void Start()
         {
+            cardProvider = GameObject.Find("_GameManager").GetComponent<CardProvider>();
             // generate all cards
             //GenerateCards((card) => true);
 
             // generate cards with the word attack in the description
             //GenerateCards(card => card.name.ToLower().Contains("wood"));
         }
+
+        /// <summary>
+        /// Utiliser les poids dans le random plutot que de multiplier les objets ?
+        /// </summary>
+        /// <param name="weightedDict"></param>
+        public void GenerateRandomCardFromWeightedList(DictionaryForInspector<BaseCardSO, int> weightedDict)
+        {
+            var res = new List<BaseCardSO>();
+            for (var i = 0; i < weightedDict.Keys.Count; i++)
+            {
+                for (var j = 0; j < weightedDict.Values[i]; j++)
+                {
+                    res.Add(weightedDict.Keys[i]);
+                }
+            }
+            GenerateRandomCardFromList(res);
+        }
+
 
         public void GenerateRandomCardFromList(IEnumerable<BaseCardSO> cards)
         {
@@ -47,14 +70,7 @@ namespace Assets.Sources.Systems
             var res = new List<BaseCardSO>(cards);
 
             //var inGameCardNames = CardContainerGO.transform.GetComponentsInChildren<Card>().Select(c => c.GetName());
-            var inGameCardNames = new List<string>();
-            var childCount = CardContainerGO.transform.GetComponentsInChildren<Card>().Length;
-            for (var i = 0; i < childCount; i++)
-            {
-                var card = CardContainerGO.transform.GetComponentsInChildren<Card>()[i];
-                if (card != null)
-                    inGameCardNames.Add(card.GetName());
-            }
+            var inGameCardNames = cardProvider.ComputeInGameCardsList();
 
             foreach (var cardSO in cards)
             {
@@ -81,11 +97,10 @@ namespace Assets.Sources.Systems
 
         public void SpawnCard(BaseCardSO cardData)
         {
-            Debug.Log($"SpawnCard {cardData.name}");
+            //Debug.Log($"SpawnCard {cardData.name}");
             var cd = cardPrefab.GetComponentInChildren<CardDisplay>();
             cd.LoadCardData(cardData);
             cd.cardSO = cardData;
-
 
             var spawedCardGO = Instantiate(cardPrefab, new Vector3(10f, 10f, -10f), Quaternion.identity);
 
@@ -98,6 +113,8 @@ namespace Assets.Sources.Systems
             spawedCardGO.transform.SetParent(CardContainerGO.transform, false);
             spawedCardGO.GetComponentInChildren<RectTransform>().localScale = GlobalVariables.CardElementsScale;
             spawedCardGO.GetComponent<Canvas>().sortingOrder = 10; // temporaire, le temps de coder un truc pour capter les cartes autour et juste se poser au dessus
+            spawedCardGO.GetComponentInChildren<Graphic>().color = cardData.BgColor;
         }
+
     }
 }

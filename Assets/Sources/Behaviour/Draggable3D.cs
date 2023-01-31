@@ -66,8 +66,8 @@ namespace Assets.Sources.Behaviour
                     closestCard = card.transform;
                     closestDistanceFromACard = currentDistance;
                 }
-                Debug.Log($"{gameObject.name} is at Z localposition {gameObject.transform.localPosition.z}");
-                Debug.Log($"{gameObject.name} is at Z worldposition {gameObject.transform.position.z}");
+                //Debug.Log($"{gameObject.name} is at Z localposition {gameObject.transform.localPosition.z}");
+                //Debug.Log($"{gameObject.name} is at Z worldposition {gameObject.transform.position.z}");
             }
 
             //Si on a une cible pour le snap

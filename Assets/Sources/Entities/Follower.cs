@@ -1,4 +1,5 @@
 ﻿using Assets.Sources.ScriptableObjects.Cards;
+using UnityEngine;
 
 namespace Assets.Sources.Entities
 {
@@ -6,7 +7,9 @@ namespace Assets.Sources.Entities
     {
         public FollowerCardSO cardSO;
 
-        public override void TriggerActionsOnSnap(Card receivedCard)
+        public override Color DefaultSliderColor { get => GlobalVariables.FOLLOWER_DefaultSliderColor; }
+
+        protected override void TriggerActionsOnSnap(Card receivedCard)
         {
 
         }
@@ -15,6 +18,11 @@ namespace Assets.Sources.Entities
         public override string GetName()
         {
             return cardSO.name;
+        }
+
+        public override Color ComputeSpecificSliderColor()
+        {
+            return DefaultSliderColor;
         }
     }
 }

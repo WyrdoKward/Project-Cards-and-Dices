@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Sources.Systems
@@ -9,104 +8,49 @@ namespace Assets.Sources.Systems
     /// </summary>
     public class FunctionTimer
     {
-
-        /// <summary>
-        /// Public function to use to instanciate a new timer with an action
-        /// </summary>
-        public static FunctionTimer Create(Action action, float delay, string timerName = null)
-        {
-            Debug.Log("Creating " + timerName);
-            InitIfNeeded();
-            var go = new GameObject("FunctionTimer", typeof(MonoBehaviourHook));
-            var functionTimer = new FunctionTimer(action, delay, timerName, go);
-            go.GetComponent<MonoBehaviourHook>().onUpdate = functionTimer.Update;
-
-            activeTimers.Add(functionTimer);
-
-            return functionTimer;
-        }
-
-        public static void StopTimer(string timerName)
-        {
-            InitIfNeeded();
-            Debug.Log("Stopping " + timerName);
-            for (var i = 0; i < activeTimers.Count; i++)
-            {
-                if (activeTimers[i].name == timerName)
-                {
-                    activeTimers[i].DestroySelf();
-                    i--; // On décrémente pour ne pas en skipper un, puisque qu'on en a viré un de la liste
-                    Debug.Log("STOP");
-                }
-            }
-        }
-
-        #region Private
+        #region Fields
+        public bool HasToStopWhenCardIsMoving;
 
         private Action action;
         private float remainingTime;
         private string name;
-        private GameObject go;
-        private bool isFinished;
 
-        private static List<FunctionTimer> activeTimers;
-        private static GameObject initGameObject;
+        #endregion
 
-        private FunctionTimer(Action action, float delay, string timerName, GameObject go)
+        /// <summary>
+        /// Public function to use to instanciate a new timer with an action
+        /// </summary>
+        public static FunctionTimer Create(Action action, float delay, bool hasToStopWhenCardIsMoving, string timerName = "")
+        {
+            Debug.Log("Creating " + timerName);
+            var functionTimer = new FunctionTimer(action, delay, timerName, hasToStopWhenCardIsMoving);
+
+            return functionTimer;
+        }
+
+        #region Private methods
+
+        private FunctionTimer(Action action, float delay, string timerName, bool hasToStopWhenCardIsMoving)
         {
             this.action = action;
             this.remainingTime = delay;
             this.name = timerName;
-            this.go = go;
+            HasToStopWhenCardIsMoving = hasToStopWhenCardIsMoving;
         }
 
-        private static void InitIfNeeded()
+        /// <summary>
+        /// Checks if timer is complete
+        /// </summary>
+        /// <returns>True if remainingTime is < 0</returns>
+        public bool Update()
         {
-            if (initGameObject == null)
-            {
-                initGameObject = new GameObject("FunctionTimer_InitGameObject");
-                activeTimers = new List<FunctionTimer>();
-            }
-        }
-
-        private void Update()
-        {
-            if (isFinished)
-                return;
-
             remainingTime -= Time.deltaTime;
             if (remainingTime < 0)
             {
                 action();
-                DestroySelf();
+                return true;
             }
-        }
-
-
-        private void DestroySelf()
-        {
-            isFinished = true;
-            UnityEngine.Object.Destroy(go);
-            RemoveTimer(this);
-        }
-
-        private static void RemoveTimer(FunctionTimer functionTimer)
-        {
-            InitIfNeeded();
-            activeTimers.Remove(functionTimer);
-        }
-
-        /// <summary>
-        /// Dummy class to access MonoBehaviour functions
-        /// </summary>
-        private class MonoBehaviourHook : MonoBehaviour
-        {
-            public Action onUpdate;
-            private void Update()
-            {
-                if (onUpdate != null)
-                    onUpdate();
-            }
+            return false;
         }
 
         #endregion
