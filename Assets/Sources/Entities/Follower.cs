@@ -24,5 +24,10 @@ namespace Assets.Sources.Entities
         {
             return DefaultSliderColor;
         }
+
+        public override BaseCardSO GetCardSO()
+        {
+            return cardSO;
+        }
     }
 }

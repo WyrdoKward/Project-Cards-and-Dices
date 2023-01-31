@@ -1,4 +1,5 @@
-﻿using Assets.Sources.Systems;
+﻿using Assets.Sources.ScriptableObjects.Cards;
+using Assets.Sources.Systems;
 using System;
 using UnityEngine;
 
@@ -25,6 +26,7 @@ namespace Assets.Sources.Entities
         public abstract Color DefaultSliderColor { get; }
 
         public abstract string GetName();
+        public abstract BaseCardSO GetCardSO();
         public abstract Color ComputeSpecificSliderColor(); //Passer en virtual si besoin d'une base() commune
 
         internal virtual void Start()

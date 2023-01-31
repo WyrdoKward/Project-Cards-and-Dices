@@ -1,16 +1,17 @@
 ﻿using Assets.Sources.ScriptableObjects.Cards;
+using System;
 using UnityEngine;
 
 namespace Assets.Sources.Entities
 {
-    internal class Resource : Card
+    internal class PNJ : Card
     {
-        public ResourceCardSO cardSO;
-        public override Color DefaultSliderColor { get => GlobalVariables.RESOURCE_DefaultSliderColor; }
+        public PNJCardSO cardSO;
+        public override Color DefaultSliderColor { get => GlobalVariables.PNJ_DefaultSliderColor; }
 
         public override Color ComputeSpecificSliderColor()
         {
-            return DefaultSliderColor;
+            throw new NotImplementedException();
         }
 
         public override string GetName()
@@ -20,7 +21,7 @@ namespace Assets.Sources.Entities
 
         protected override void TriggerActionsOnSnap(Card receivedCard)
         {
-
+            throw new NotImplementedException();
         }
 
         public override BaseCardSO GetCardSO()

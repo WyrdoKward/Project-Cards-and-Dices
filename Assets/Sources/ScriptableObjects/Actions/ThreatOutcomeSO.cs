@@ -17,6 +17,7 @@ namespace Assets.Sources.ScriptableObjects.Actions
         private Threat _thisCard { get => thisCardBodyGameObject.GetComponentInChildren<Card>() as Threat; }
 
         public GameObject GameManager { get; internal set; }
+        public bool IsLoop;
 
         internal void SetCardBodyGameObject(GameObject cardBodyGO)
         {
@@ -35,10 +36,18 @@ namespace Assets.Sources.ScriptableObjects.Actions
                 _thisCard.AttemptToResolve();
             else
             {
-                ExecuteThreatBeginningHook();
-                var continueLoop = ConcreteExecuteThreat();
-                ExecuteThreatEndHook(continueLoop);
+                ExecuteThreat();
             }
+        }
+
+        /// <summary>
+        /// Encapsulate ExecuteThreat Hooks
+        /// </summary>
+        private void ExecuteThreat()
+        {
+            ExecuteThreatBeginningHook();
+            var continueLoop = ConcreteExecuteThreat();
+            ExecuteThreatEndHook(continueLoop);
         }
 
         /// <summary>

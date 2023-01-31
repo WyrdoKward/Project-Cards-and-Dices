@@ -31,6 +31,8 @@ namespace Assets.Sources.Entities
 
         public void AttemptToResolve()
         {
+            //TODO Remplacer le random par le 'test'
+            //TODO A déplacer directemlent dans ThreatOutcomeSO ?
             var rnd = Random.Range(0, 2);
             if (rnd == 0)
                 cardSO.Outcomes.SuccessToPrevent();
@@ -56,6 +58,11 @@ namespace Assets.Sources.Entities
                 return Color.yellow;
 
             return DefaultSliderColor;
+        }
+
+        public override BaseCardSO GetCardSO()
+        {
+            return cardSO;
         }
     }
 }

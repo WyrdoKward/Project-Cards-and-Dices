@@ -9,7 +9,7 @@ namespace Assets.Sources.ScriptableObjects.Cards
     {
         public float ThreatTime;
 
-        public ThreatOutcomeSO Outcomes; // Voir pour le DP Decorator ou Strategy. Et commencer par coder le spawn de la carte pour voir ce qui est accessible depuis le reste ?
+        public ThreatOutcomeSO Outcomes; // Implémenté via un DP Strategy
 
         public override Color BgColor => new Color(1, 0, 0);
 

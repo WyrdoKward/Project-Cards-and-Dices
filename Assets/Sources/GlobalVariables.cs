@@ -15,6 +15,7 @@ namespace Assets.Sources
         public static readonly Color LOCATION_DefaultSliderColor = Color.green;
         public static readonly Color THREAT_DefaultSliderColor = Color.red;
         public static readonly Color RESOURCE_DefaultSliderColor = Color.white;
+        public static readonly Color PNJ_DefaultSliderColor = Color.magenta;
         #endregion
 
         #region animationUI
