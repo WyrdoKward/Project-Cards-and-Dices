@@ -8,7 +8,7 @@ namespace Assets.Sources.ScriptableObjects.Cards
         public string description;
         public Sprite artwork;
         internal GameObject thisCardGameObject;
-        public abstract Color color { get; }
+        public abstract Color BgColor { get; }
 
         public bool isUnique;
 

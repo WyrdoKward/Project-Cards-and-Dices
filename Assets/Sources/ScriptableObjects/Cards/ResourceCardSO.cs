@@ -6,7 +6,7 @@ namespace Assets.Sources.ScriptableObjects.Cards
     [CreateAssetMenu(fileName = "New Resource", menuName = "Card/Resource")]
     internal class ResourceCardSO : BaseCardSO
     {
-        public override Color color => new Color(0, 1, 0);
+        public override Color BgColor => new Color(0, 1, 0);
         public ResourceCardSO()
         { }
 

@@ -11,7 +11,7 @@ namespace Assets.Sources.ScriptableObjects.Cards
 
         public ThreatOutcomeSO Outcomes; // Voir pour le DP Decorator ou Strategy. Et commencer par coder le spawn de la carte pour voir ce qui est accessible depuis le reste ?
 
-        public override Color color => new Color(1, 0, 0);
+        public override Color BgColor => new Color(1, 0, 0);
 
         //public Dice[] dice;
 
@@ -19,7 +19,7 @@ namespace Assets.Sources.ScriptableObjects.Cards
         {
             base.InitializedCardWithScriptableObject(cardBodyGO);
             Outcomes.SetCardBodyGameObject(cardBodyGO);
-            Outcomes.baseCardSO = this;
+            Outcomes.CardSO = this;
             Outcomes.GameManager = GameObject.Find("_GameManager");
 
             cardBodyGO.AddComponent<Threat>();

@@ -113,7 +113,7 @@ namespace Assets.Sources.Systems
             spawedCardGO.transform.SetParent(CardContainerGO.transform, false);
             spawedCardGO.GetComponentInChildren<RectTransform>().localScale = GlobalVariables.CardElementsScale;
             spawedCardGO.GetComponent<Canvas>().sortingOrder = 10; // temporaire, le temps de coder un truc pour capter les cartes autour et juste se poser au dessus
-            spawedCardGO.GetComponentInChildren<Graphic>().color = cardData.color;
+            spawedCardGO.GetComponentInChildren<Graphic>().color = cardData.BgColor;
         }
 
     }

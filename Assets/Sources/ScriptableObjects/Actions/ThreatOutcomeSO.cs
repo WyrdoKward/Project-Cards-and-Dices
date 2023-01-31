@@ -10,7 +10,7 @@ namespace Assets.Sources.ScriptableObjects.Actions
     /// </summary>
     public abstract class ThreatOutcomeSO : ScriptableObject
     {
-        public BaseCardSO baseCardSO;
+        public BaseCardSO CardSO; //La Base class évite la référence circulaire
         public bool IsLoop;
 
         protected GameObject thisCardBodyGameObject;
@@ -97,7 +97,7 @@ namespace Assets.Sources.ScriptableObjects.Actions
             if (IsLoop && continueLoop)
             {
                 //Debug.Log("ExecuteThreatEndHook");
-                var duration = ((ThreatCardSO)baseCardSO).ThreatTime;
+                var duration = ((ThreatCardSO)CardSO).ThreatTime;
 
                 _thisCard.LaunchDelayedActionWithTimer(DetermineOutcome, duration, null, false);
             }
