@@ -64,7 +64,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
     /// </summary>
     private void MoveAttachedCard(Card card, Vector2 delta)
     {
-        var receivedCard = card.Receivedcard;
+        var receivedCard = card.NextCardInStack;
         if (receivedCard == null)
             return;
 

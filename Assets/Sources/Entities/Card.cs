@@ -1,6 +1,7 @@
 ﻿using Assets.Sources.ScriptableObjects.Cards;
 using Assets.Sources.Systems;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Sources.Entities
@@ -13,7 +14,8 @@ namespace Assets.Sources.Entities
         /// <summary>
         /// ATTENTION : Implique qu'on ne gère pas les stacks
         /// </summary>
-        internal GameObject Receivedcard;
+        internal GameObject NextCardInStack;
+        internal GameObject PreviousCardInStack;
         internal Vector3 scale;
         internal GameObject gameManager;
         internal TimeManager timeManager;
@@ -36,13 +38,23 @@ namespace Assets.Sources.Entities
             timeManager = gameManager.GetComponent<TimeManager>();
             Guid = Guid.NewGuid();
             GetComponent<Draggable>().Lastposition = transform.position;
-            Debug.Log($"Card.Start : {GetName()} at {transform.position}");
         }
 
         /// <summary>
         /// Triggered when this card receives an other card.
         /// </summary>
         protected abstract void TriggerActionsOnSnap(Card receivedCard);
+
+        public List<Card> GetStackStartingOnThis()
+        {
+            var stack = new List<Card> { this };
+            if (NextCardInStack == null)
+                return stack;
+
+            stack.AddRange(NextCardInStack.GetComponent<Card>().GetStackStartingOnThis());
+
+            return stack;
+        }
 
         public void ReturnToLastPosition()
         {
@@ -74,10 +86,10 @@ namespace Assets.Sources.Entities
         /// </summary>
         internal bool HasReceivedCardWithGuid(Guid guid)
         {
-            if (Receivedcard == null)
+            if (NextCardInStack == null)
                 return false;
 
-            return Receivedcard.GetComponentInChildren<Card>().Guid == guid;
+            return NextCardInStack.GetComponentInChildren<Card>().Guid == guid;
         }
 
         /// <summary>
@@ -85,7 +97,15 @@ namespace Assets.Sources.Entities
         /// </summary>
         public virtual void SnapOnIt(GameObject receivedCard)
         {
-            Receivedcard = receivedCard;
+            // Chain the cards
+            NextCardInStack = receivedCard;
+            receivedCard.GetComponent<Card>().PreviousCardInStack = this.gameObject;
+
+            // Ici il faut déterminer tout le stack
+            // var stack = GetStackBeforeThis()
+            // stack.AddRange(GetStackStartingOnThis())
+            // var firstCardOfStack
+            // firstCardOfStack.TriggerActionsOnSnap(stack)
             TriggerActionsOnSnap(receivedCard.GetComponent<Card>());
         }
 
@@ -95,9 +115,9 @@ namespace Assets.Sources.Entities
         public virtual void SnapOutOfIt(bool expulseCardOnUI = false)
         {
             if (expulseCardOnUI)
-                Receivedcard.GetComponent<Card>().ReturnToLastPosition();
+                NextCardInStack.GetComponent<Card>().ReturnToLastPosition();
 
-            Receivedcard = null;
+            NextCardInStack = null;
         }
     }
 }

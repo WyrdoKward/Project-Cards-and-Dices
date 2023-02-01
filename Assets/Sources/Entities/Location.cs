@@ -47,8 +47,8 @@ namespace Assets.Sources.Entities
             gameManager.GetComponent<CardSpawner>().GenerateRandomCardFromList(cardSO.Loot);
 
             //TODO ejecter receivedCard
-            if (Receivedcard != null)
-                Receivedcard.GetComponent<Card>().ReturnToLastPosition();
+            if (NextCardInStack != null)
+                NextCardInStack.GetComponent<Card>().ReturnToLastPosition();
         }
 
         public override void SnapOutOfIt(bool expulseCardOnUI = false)

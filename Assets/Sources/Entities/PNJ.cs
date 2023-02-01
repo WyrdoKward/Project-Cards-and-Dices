@@ -1,5 +1,4 @@
 ﻿using Assets.Sources.ScriptableObjects.Cards;
-using System;
 using UnityEngine;
 
 namespace Assets.Sources.Entities
@@ -8,10 +7,10 @@ namespace Assets.Sources.Entities
     {
         public PNJCardSO cardSO;
         public override Color DefaultSliderColor { get => GlobalVariables.PNJ_DefaultSliderColor; }
-
+        public float TalkingTime = 10f;
         public override Color ComputeSpecificSliderColor()
         {
-            throw new NotImplementedException();
+            return DefaultSliderColor;
         }
 
         public override string GetName()
@@ -21,12 +20,20 @@ namespace Assets.Sources.Entities
 
         protected override void TriggerActionsOnSnap(Card receivedCard)
         {
-            throw new NotImplementedException();
+            //Determine what kind of action according to what is snapped
+            //if (receivedCard is Follower follower)
+            //    TalkWith(follower);
         }
 
         public override BaseCardSO GetCardSO()
         {
             return cardSO;
+        }
+
+        private void TalkWith(Follower follower)
+        {
+            Debug.Log($"{follower.GetName()} : bla ?");
+            Debug.Log($"{GetName()} : bla bla bla !");
         }
     }
 }
