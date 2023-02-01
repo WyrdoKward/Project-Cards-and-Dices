@@ -18,3 +18,4 @@ MonoBehaviour:
   isUnique: 1
   Loot:
   - {fileID: 11400000, guid: e5eb1830d2da667439d1b477c6c7b4eb, type: 2}
+  - {fileID: 11400000, guid: 6a2305e31f83f3a49be7bd232ffad128, type: 2}
