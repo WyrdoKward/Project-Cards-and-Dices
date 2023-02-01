@@ -52,7 +52,25 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
 
     void IDragHandler.OnDrag(PointerEventData eventData)
     {
-        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        var deltaPosition = eventData.delta / canvas.scaleFactor;
+        rectTransform.anchoredPosition += deltaPosition;
+
+        //Moving attached cards aswell
+        MoveAttachedCard(eventData.pointerDrag.GetComponent<Card>(), deltaPosition);
+    }
+
+    /// <summary>
+    /// Checks if card has a "ReceivedCard" an moves it along if so.
+    /// </summary>
+    private void MoveAttachedCard(Card card, Vector2 delta)
+    {
+        var receivedCard = card.Receivedcard;
+        if (receivedCard == null)
+            return;
+
+        var receivedCardTransform = receivedCard.GetComponent<RectTransform>();
+        receivedCardTransform.anchoredPosition += delta;
+        MoveAttachedCard(receivedCard.GetComponent<Card>(), delta);
     }
 
     //protected virtual void OnEndDrag(PointerEventData eventData)
