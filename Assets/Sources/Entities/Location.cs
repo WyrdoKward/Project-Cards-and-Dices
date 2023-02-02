@@ -1,5 +1,6 @@
 ﻿using Assets.Sources.ScriptableObjects.Cards;
 using Assets.Sources.Systems;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Sources.Entities
@@ -25,6 +26,12 @@ namespace Assets.Sources.Entities
             //Debug.Log($"{cardSO.name} received {receivedCard.GetName()}");
             if (receivedCard is Follower follower)
                 Explore(follower);
+        }
+
+
+        protected override void TriggerActionsOnSnap(List<Card> stack)
+        {
+            throw new System.NotImplementedException();
         }
 
         private void Explore(Follower follower)

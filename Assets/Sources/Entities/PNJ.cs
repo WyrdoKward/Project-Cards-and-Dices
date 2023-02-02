@@ -1,4 +1,5 @@
 ﻿using Assets.Sources.ScriptableObjects.Cards;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Sources.Entities
@@ -20,9 +21,18 @@ namespace Assets.Sources.Entities
 
         protected override void TriggerActionsOnSnap(Card receivedCard)
         {
-            //Determine what kind of action according to what is snapped
             //if (receivedCard is Follower follower)
             //    TalkWith(follower);
+        }
+
+        protected override void TriggerActionsOnSnap(List<Card> stack)
+        {
+            if (stack.Count < 2)
+            {
+                Debug.LogWarning($"Stack anormal sur {GetName()} : {stack.Count}");
+                return;
+            }
+            //Determine what kind of action according to what is snapped
         }
 
         public override BaseCardSO GetCardSO()

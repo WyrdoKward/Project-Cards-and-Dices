@@ -1,4 +1,5 @@
 ﻿using Assets.Sources.ScriptableObjects.Cards;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Sources.Entities
@@ -21,6 +22,11 @@ namespace Assets.Sources.Entities
         protected override void TriggerActionsOnSnap(Card receivedCard)
         {
 
+        }
+
+        protected override void TriggerActionsOnSnap(List<Card> stack)
+        {
+            throw new System.NotImplementedException();
         }
 
         public override BaseCardSO GetCardSO()

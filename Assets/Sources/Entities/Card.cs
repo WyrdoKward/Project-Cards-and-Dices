@@ -2,6 +2,7 @@
 using Assets.Sources.Systems;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Sources.Entities
@@ -41,17 +42,43 @@ namespace Assets.Sources.Entities
         }
 
         /// <summary>
-        /// Triggered when this card receives an other card.
+        /// Obsolete
         /// </summary>
         protected abstract void TriggerActionsOnSnap(Card receivedCard);
 
-        public List<Card> GetStackStartingOnThis()
+        /// <summary>
+        /// Triggered when this card receives an other card.
+        /// </summary>
+        protected abstract void TriggerActionsOnSnap(List<Card> stack);
+
+        public List<Card> GetFullStack()
+        {
+            var stack = GetPreviousCardsInStack();
+            stack.RemoveAt(0); // "This" sera ajouté par GetNextCardsInStack
+            stack.Reverse();
+            stack.AddRange(GetNextCardsInStack());
+
+            return stack;
+        }
+
+        private List<Card> GetPreviousCardsInStack()
+        {
+            var stack = new List<Card>() { this };
+            if (PreviousCardInStack == null)
+                return stack;
+
+            stack.AddRange(PreviousCardInStack.GetComponent<Card>().GetPreviousCardsInStack());
+
+            return stack;
+        }
+
+        private List<Card> GetNextCardsInStack()
         {
             var stack = new List<Card> { this };
             if (NextCardInStack == null)
                 return stack;
 
-            stack.AddRange(NextCardInStack.GetComponent<Card>().GetStackStartingOnThis());
+            stack.AddRange(NextCardInStack.GetComponent<Card>().GetNextCardsInStack());
 
             return stack;
         }
@@ -102,11 +129,10 @@ namespace Assets.Sources.Entities
             receivedCard.GetComponent<Card>().PreviousCardInStack = this.gameObject;
 
             // Ici il faut déterminer tout le stack
-            // var stack = GetStackBeforeThis()
-            // stack.AddRange(GetStackStartingOnThis())
-            // var firstCardOfStack
-            // firstCardOfStack.TriggerActionsOnSnap(stack)
-            TriggerActionsOnSnap(receivedCard.GetComponent<Card>());
+            var stack = GetFullStack();
+            var firstCardOfStack = stack.FirstOrDefault();
+            firstCardOfStack.TriggerActionsOnSnap(stack);
+            //TriggerActionsOnSnap(receivedCard.GetComponent<Card>());
         }
 
         /// <summary>
