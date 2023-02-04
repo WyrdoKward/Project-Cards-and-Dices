@@ -24,23 +24,29 @@ namespace Assets.Sources.Entities
             return cardSO.name;
         }
 
-        protected override void TriggerActionsOnSnap(List<Card> stack)
+        /// <summary>
+        /// Triggered when this PNJ receives an other card.
+        /// </summary>
+        /// <returns>True if an action has been executed</returns>
+        protected override bool TriggerActionsOnSnap(List<Card> stack)
         {
-            base.TriggerActionsOnSnap(stack);
+            if (!base.TriggerActionsOnSnap(stack))
+                return false;
 
-            //TODO vérifier qu'on ne passe pas ici si uselessCards > 0
-
+            //Execute actions on PNJ here
             if (stackHolder.Followers.Count == 1 && stackHolder.Resources.Count == 0)
             {
                 cardSO.Actions.Talk(stackHolder.Followers[0]);
+                return true;
             }
 
             if (stackHolder.Followers.Count == 1 && stackHolder.Resources.Count > 0)
             {
                 cardSO.Actions.BuyService(stackHolder.Followers[0], stackHolder.Resources);
+                return true;
             }
 
-
+            return false;
         }
 
         public override BaseCardSO GetCardSO()

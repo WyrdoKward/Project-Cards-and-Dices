@@ -13,9 +13,18 @@ namespace Assets.Sources.Entities
 
         protected override List<Type> AllowedTypes => null;
 
-        protected override void TriggerActionsOnSnap(List<Card> stack)
+        /// <summary>
+        /// Triggered when this Follower receives an other card.
+        /// </summary>
+        /// <returns>True if an action has been executed</returns>
+        protected override bool TriggerActionsOnSnap(List<Card> stack)
         {
+            if (!base.TriggerActionsOnSnap(stack))
+                return false;
 
+            //Execute actions on Follower here
+
+            return false;
         }
 
         public override string GetName()

@@ -48,15 +48,20 @@ namespace Assets.Sources.Entities
         /// <summary>
         /// Triggered when this card receives an other card.
         /// </summary>
-        protected virtual void TriggerActionsOnSnap(List<Card> stack)
+        /// <returns>False if no action is to be executed</returns>
+        protected virtual bool TriggerActionsOnSnap(List<Card> stack)
         {
             if (stack.Count == 0)
             {
                 Debug.LogWarning($"Stack vide sur {GetName()}");
-                return;
+                return false;
             }
 
             stackHolder = new StackHolder(stack, AllowedTypes);
+            if (stackHolder.UselessCards.Count > 0)
+                return false;
+
+            return true;
         }
 
         public List<Card> GetFullStack()
@@ -67,17 +72,6 @@ namespace Assets.Sources.Entities
             stack.AddRange(GetNextCardsInStack());
 
             return stack;
-        }
-
-        public void DebugPrintStack(List<Card> stack)
-        {
-            var msg = $"{stack.Count} elements in stack : ";
-            foreach (var c in stack)
-            {
-                msg += c.GetCardSO().name + ", ";
-            }
-            msg = msg.Substring(0, msg.Length - 2);
-            Debug.Log(msg);
         }
 
         /// <summary>
@@ -158,8 +152,7 @@ namespace Assets.Sources.Entities
             DebugPrintStack(stack);
             var firstCardOfStack = stack.FirstOrDefault();
             stack.RemoveAt(0); //Remove first card for convenience later
-            firstCardOfStack.TriggerActionsOnSnap(stack);
-            //TriggerActionsOnSnap(receivedCard.GetComponent<Card>());
+            var hasActionBeenExecuted = firstCardOfStack.TriggerActionsOnSnap(stack);
         }
 
         /// <summary>
@@ -172,5 +165,20 @@ namespace Assets.Sources.Entities
 
             NextCardInStack = null;
         }
+
+        #region DEBUG
+
+
+        public void DebugPrintStack(List<Card> stack)
+        {
+            var msg = $"{stack.Count} elements in stack : ";
+            foreach (var c in stack)
+            {
+                msg += c.GetCardSO().name + ", ";
+            }
+            msg = msg.Substring(0, msg.Length - 2);
+            Debug.Log(msg);
+        }
+        #endregion
     }
 }

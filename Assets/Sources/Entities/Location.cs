@@ -23,20 +23,23 @@ namespace Assets.Sources.Entities
 
         public override string GetName() => cardSO.name;
 
-        //protected override void TriggerActionsOnSnap(Card receivedCard)
-        //{
-        //    //Debug.Log($"{cardSO.name} received {receivedCard.GetName()}");
-        //    if (receivedCard is Follower follower)
-        //        Explore(follower);
-        //}
-
-
-        protected override void TriggerActionsOnSnap(List<Card> stack)
+        /// <summary>
+        /// Triggered when this Location receives an other card.
+        /// </summary>
+        /// <returns>True if an action has been executed</returns>
+        protected override bool TriggerActionsOnSnap(List<Card> stack)
         {
-            base.TriggerActionsOnSnap(stack);
+            if (!base.TriggerActionsOnSnap(stack))
+                return false;
 
+            //Execute actions on Location here
             if (stackHolder.Followers.Count == 1)
+            {
                 Explore(stackHolder.Followers[0]);
+                return true;
+            }
+
+            return false;
         }
 
         private void Explore(Follower follower)

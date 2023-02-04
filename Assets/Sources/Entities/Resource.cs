@@ -22,8 +22,18 @@ namespace Assets.Sources.Entities
             return cardSO.name;
         }
 
-        protected override void TriggerActionsOnSnap(List<Card> stack)
+        /// <summary>
+        /// Triggered when this Resource receives an other card.
+        /// </summary>
+        /// <returns>True if an action has been executed</returns>
+        protected override bool TriggerActionsOnSnap(List<Card> stack)
         {
+            if (!base.TriggerActionsOnSnap(stack))
+                return false;
+
+            //Execute actions on Resources here
+
+            return false;
         }
 
         public override BaseCardSO GetCardSO()
