@@ -64,6 +64,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
     /// </summary>
     private void MoveAttachedCard(Card card, Vector2 delta)
     {
+        //Debug.Log($"Moving {card.GetName()} ( + {card.NextCardInStack?.GetComponent<Card>().GetName()})");
         var receivedCard = card.NextCardInStack;
         if (receivedCard == null)
             return;
@@ -100,21 +101,36 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
     void IDropHandler.OnDrop(PointerEventData eventData)
     {
         //Appellé quand on reçoit une carte
-        //Debug.Log("OnDrop");
-        if (eventData.pointerDrag != null)
-        {
-            //Snapping UI
-            var targetPosition = GetComponent<RectTransform>().anchoredPosition;
-            targetPosition.y -= 70 * GetComponent<RectTransform>().localScale.y;
-            eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = targetPosition;
+        Debug.Log("OnDrop");
+        if (eventData.pointerDrag == null)
+            return;
 
-            //Put dragged card on top
-            eventData.pointerDrag.GetComponentInParent<Canvas>().sortingOrder = GetComponentInParent<Canvas>().sortingOrder + 1;
-            eventData.pointerDrag.GetComponent<Draggable>().isBeeingDragged = false;
+        var targetCard = GetComponent<Card>();
+        var droppedCard = eventData.pointerDrag.GetComponent<Card>();
+        //var stack = targetCard.GetFullStack();
+        //targetCard.DebugPrintStack(stack);
 
-            //Buisiness on snapping
-            var targetCard = GetComponent<Card>();
-            targetCard.SnapOnIt(eventData.pointerDrag);
-        }
+        //var stack2 = droppedCard.GetFullStack();
+        //droppedCard.DebugPrintStack(stack2);
+
+        //Si les 2 cartes sont dcans le meme stack, on ne les resnap pas
+        if (targetCard.IsInSameStack(droppedCard))
+            return;
+
+
+        Debug.Log($"{GetComponent<Card>().GetName()} receiving : {droppedCard.GetName()}");
+        //Snapping UI
+        var targetPosition = GetComponent<RectTransform>().anchoredPosition;
+        targetPosition.y -= 70 * GetComponent<RectTransform>().localScale.y;
+        eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = targetPosition;
+
+        //TODO Il faut aussi déplacer les NextCards du stack sinon elles restent liées dans le code mais pas forcément sur l'UI
+
+        //Put dragged card on top
+        eventData.pointerDrag.GetComponentInParent<Canvas>().sortingOrder = GetComponentInParent<Canvas>().sortingOrder + 1;
+        eventData.pointerDrag.GetComponent<Draggable>().isBeeingDragged = false;
+
+        //Buisiness on snapping
+        targetCard.SnapOnIt(eventData.pointerDrag);
     }
 }

@@ -5,15 +5,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Assets.Sources.Entities
 {
     /// <summary>
     /// Remove this component form the instanciated prefab to replace it with a children if this entity
     /// </summary>
-    public abstract class Card : MonoBehaviour
+    public abstract class Card : MonoBehaviour, IPointerClickHandler
     {
+        /// <summary>
+        /// The card above
+        /// </summary>
         internal GameObject NextCardInStack;
+        /// <summary>
+        /// The card under
+        /// </summary>
         internal GameObject PreviousCardInStack;
         internal Vector3 scale;
         internal GameObject gameManager;
@@ -58,10 +65,8 @@ namespace Assets.Sources.Entities
             }
 
             stackHolder = new StackHolder(stack, AllowedTypes);
-            if (stackHolder.UselessCards.Count > 0)
-                return false;
 
-            return true;
+            return !stackHolder.HasUselessCards();
         }
 
         public List<Card> GetFullStack()
@@ -102,6 +107,17 @@ namespace Assets.Sources.Entities
             return stack;
         }
 
+
+        public bool IsInSameStack(Card card)
+        {
+            foreach (var c in GetFullStack())
+            {
+                if (c.Guid == card.Guid)
+                    return true;
+            }
+            return false;
+        }
+        //TODO déplacer dans un script dédié à l'UI
         public void ReturnToLastPosition()
         {
             transform.position = GetComponent<Draggable>().Lastposition;
@@ -143,6 +159,7 @@ namespace Assets.Sources.Entities
         /// </summary>
         public virtual void SnapOnIt(GameObject receivedCard)
         {
+            Debug.Log($"{receivedCard.GetComponent<Card>().GetName()} snaps on {GetName()}");
             // Chain the cards
             NextCardInStack = receivedCard;
             receivedCard.GetComponent<Card>().PreviousCardInStack = this.gameObject;
@@ -160,14 +177,16 @@ namespace Assets.Sources.Entities
         /// </summary>
         public virtual void SnapOutOfIt(bool expulseCardOnUI = false)
         {
+            Debug.Log($"{NextCardInStack.GetComponent<Card>().GetName()} snaps out of {GetName()}");
             if (expulseCardOnUI)
                 NextCardInStack.GetComponent<Card>().ReturnToLastPosition();
 
+            NextCardInStack.GetComponent<Card>().PreviousCardInStack = null;
             NextCardInStack = null;
+
         }
 
         #region DEBUG
-
 
         public void DebugPrintStack(List<Card> stack)
         {
@@ -178,6 +197,17 @@ namespace Assets.Sources.Entities
             }
             msg = msg.Substring(0, msg.Length - 2);
             Debug.Log(msg);
+        }
+
+        /// <summary>
+        /// Affiche des infos de débug au clic droit
+        /// </summary>
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (eventData.button == PointerEventData.InputButton.Right)
+            {
+                Debug.Log($"Card Chained : {PreviousCardInStack?.GetComponent<Card>().GetName()} < {GetName()} < {NextCardInStack?.GetComponent<Card>().GetName()}");
+            }
         }
         #endregion
     }
