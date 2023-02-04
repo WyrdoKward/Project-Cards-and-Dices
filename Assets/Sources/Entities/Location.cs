@@ -1,5 +1,6 @@
 ﻿using Assets.Sources.ScriptableObjects.Cards;
 using Assets.Sources.Systems;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ namespace Assets.Sources.Entities
         public float DefaultExplorationTime = 10f;
         public override Color DefaultSliderColor { get => GlobalVariables.LOCATION_DefaultSliderColor; }
 
+        protected override List<Type> AllowedTypes => new() { typeof(Follower) };
 
         public new void Start()
         {
@@ -21,17 +23,20 @@ namespace Assets.Sources.Entities
 
         public override string GetName() => cardSO.name;
 
-        protected override void TriggerActionsOnSnap(Card receivedCard)
-        {
-            //Debug.Log($"{cardSO.name} received {receivedCard.GetName()}");
-            if (receivedCard is Follower follower)
-                Explore(follower);
-        }
+        //protected override void TriggerActionsOnSnap(Card receivedCard)
+        //{
+        //    //Debug.Log($"{cardSO.name} received {receivedCard.GetName()}");
+        //    if (receivedCard is Follower follower)
+        //        Explore(follower);
+        //}
 
 
         protected override void TriggerActionsOnSnap(List<Card> stack)
         {
-            throw new System.NotImplementedException();
+            base.TriggerActionsOnSnap(stack);
+
+            if (stackHolder.Followers.Count == 1)
+                Explore(stackHolder.Followers[0]);
         }
 
         private void Explore(Follower follower)

@@ -1,4 +1,5 @@
 ﻿using Assets.Sources.ScriptableObjects.Cards;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,15 +11,11 @@ namespace Assets.Sources.Entities
 
         public override Color DefaultSliderColor { get => GlobalVariables.FOLLOWER_DefaultSliderColor; }
 
-        protected override void TriggerActionsOnSnap(Card receivedCard)
-        {
-
-        }
-
+        protected override List<Type> AllowedTypes => null;
 
         protected override void TriggerActionsOnSnap(List<Card> stack)
         {
-            throw new System.NotImplementedException();
+
         }
 
         public override string GetName()

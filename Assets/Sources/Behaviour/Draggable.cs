@@ -26,7 +26,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("OnBeginDrag");
+        //Debug.Log("OnBeginDrag");
 
         Lastposition = transform.position;
 
@@ -76,7 +76,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
     //protected virtual void OnEndDrag(PointerEventData eventData)
     void IEndDragHandler.OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("OnEndDrag base");
+        //Debug.Log("OnEndDrag base");
 
         //Si elle était ReceivedCard d'un autre carte il faut l'enlever
         if (lastCardThisWasSnappedOnto != null)
@@ -100,7 +100,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
     void IDropHandler.OnDrop(PointerEventData eventData)
     {
         //Appellé quand on reçoit une carte
-        Debug.Log("OnDrop");
+        //Debug.Log("OnDrop");
         if (eventData.pointerDrag != null)
         {
             //Snapping UI

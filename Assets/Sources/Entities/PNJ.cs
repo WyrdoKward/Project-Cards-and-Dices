@@ -1,13 +1,18 @@
 ﻿using Assets.Sources.ScriptableObjects.Cards;
+using Assets.Sources.ScriptableObjects.Pnjs;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Sources.Entities
 {
-    internal class PNJ : Card
+    public class PNJ : Card
     {
         public PNJCardSO cardSO;
         public override Color DefaultSliderColor { get => GlobalVariables.PNJ_DefaultSliderColor; }
+
+        protected override List<Type> AllowedTypes => new() { typeof(Follower), typeof(Resource) };
+
         public float TalkingTime = 10f;
         public override Color ComputeSpecificSliderColor()
         {
@@ -19,31 +24,28 @@ namespace Assets.Sources.Entities
             return cardSO.name;
         }
 
-        protected override void TriggerActionsOnSnap(Card receivedCard)
-        {
-            //if (receivedCard is Follower follower)
-            //    TalkWith(follower);
-        }
-
         protected override void TriggerActionsOnSnap(List<Card> stack)
         {
-            if (stack.Count < 2)
+            base.TriggerActionsOnSnap(stack);
+
+            //TODO vérifier qu'on ne passe pas ici si uselessCards > 0
+
+            if (stackHolder.Followers.Count == 1 && stackHolder.Resources.Count == 0)
             {
-                Debug.LogWarning($"Stack anormal sur {GetName()} : {stack.Count}");
-                return;
+                cardSO.Actions.Talk(stackHolder.Followers[0]);
             }
-            //Determine what kind of action according to what is snapped
+
+            if (stackHolder.Followers.Count == 1 && stackHolder.Resources.Count > 0)
+            {
+                cardSO.Actions.BuyService(stackHolder.Followers[0], stackHolder.Resources);
+            }
+
+
         }
 
         public override BaseCardSO GetCardSO()
         {
             return cardSO;
-        }
-
-        private void TalkWith(Follower follower)
-        {
-            Debug.Log($"{follower.GetName()} : bla ?");
-            Debug.Log($"{GetName()} : bla bla bla !");
         }
     }
 }

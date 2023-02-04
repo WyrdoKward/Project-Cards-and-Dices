@@ -1,4 +1,5 @@
-﻿using Assets.Sources.ScriptableObjects.Cards;
+﻿using Assets.Sources.Misc;
+using Assets.Sources.ScriptableObjects.Cards;
 using Assets.Sources.Systems;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,6 @@ namespace Assets.Sources.Entities
     /// </summary>
     public abstract class Card : MonoBehaviour
     {
-        /// <summary>
-        /// ATTENTION : Implique qu'on ne gère pas les stacks
-        /// </summary>
         internal GameObject NextCardInStack;
         internal GameObject PreviousCardInStack;
         internal Vector3 scale;
@@ -23,6 +21,12 @@ namespace Assets.Sources.Entities
         public string attachedTimerGuid;
 
         protected Color defaultSliderColor;
+        protected StackHolder stackHolder;
+
+        /// <summary>
+        /// Les types de cartes autorisées à stacker sur cette carte
+        /// </summary>
+        protected abstract List<Type> AllowedTypes { get; }
 
         [SerializeField]
         internal Guid Guid { get; private set; }
@@ -42,14 +46,18 @@ namespace Assets.Sources.Entities
         }
 
         /// <summary>
-        /// Obsolete
-        /// </summary>
-        protected abstract void TriggerActionsOnSnap(Card receivedCard);
-
-        /// <summary>
         /// Triggered when this card receives an other card.
         /// </summary>
-        protected abstract void TriggerActionsOnSnap(List<Card> stack);
+        protected virtual void TriggerActionsOnSnap(List<Card> stack)
+        {
+            if (stack.Count == 0)
+            {
+                Debug.LogWarning($"Stack vide sur {GetName()}");
+                return;
+            }
+
+            stackHolder = new StackHolder(stack, AllowedTypes);
+        }
 
         public List<Card> GetFullStack()
         {
@@ -61,6 +69,20 @@ namespace Assets.Sources.Entities
             return stack;
         }
 
+        public void DebugPrintStack(List<Card> stack)
+        {
+            var msg = $"{stack.Count} elements in stack : ";
+            foreach (var c in stack)
+            {
+                msg += c.GetCardSO().name + ", ";
+            }
+            msg = msg.Substring(0, msg.Length - 2);
+            Debug.Log(msg);
+        }
+
+        /// <summary>
+        /// La carte actuelle sera la dernière carte de la liste retournée
+        /// </summary>
         private List<Card> GetPreviousCardsInStack()
         {
             var stack = new List<Card>() { this };
@@ -72,6 +94,9 @@ namespace Assets.Sources.Entities
             return stack;
         }
 
+        /// <summary>
+        /// La première carte de la liste retournée sera la carte actuelle
+        /// </summary>
         private List<Card> GetNextCardsInStack()
         {
             var stack = new List<Card> { this };
@@ -130,7 +155,9 @@ namespace Assets.Sources.Entities
 
             // Ici il faut déterminer tout le stack
             var stack = GetFullStack();
+            DebugPrintStack(stack);
             var firstCardOfStack = stack.FirstOrDefault();
+            stack.RemoveAt(0); //Remove first card for convenience later
             firstCardOfStack.TriggerActionsOnSnap(stack);
             //TriggerActionsOnSnap(receivedCard.GetComponent<Card>());
         }

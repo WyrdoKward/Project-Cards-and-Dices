@@ -11,6 +11,8 @@ namespace Assets.Sources.Entities
 
         public override Color DefaultSliderColor { get => GlobalVariables.THREAT_DefaultSliderColor; }
 
+        protected override List<System.Type> AllowedTypes => new() { typeof(Follower) };
+
         public override string GetName()
         {
             return cardSO.name;
@@ -23,17 +25,20 @@ namespace Assets.Sources.Entities
             LaunchDelayedActionWithTimer(cardSO.Outcomes.DetermineOutcome, cardSO.ThreatTime, null, false);
         }
 
-        protected override void TriggerActionsOnSnap(Card receivedCard)
-        {
-            //Debug.Log($"{cardSO.name} received {receivedCard.GetName()}");
-            if (receivedCard is Follower follower)
-                handledBy = follower;
-        }
+        //protected override void TriggerActionsOnSnap(Card receivedCard)
+        //{
+        //    //Debug.Log($"{cardSO.name} received {receivedCard.GetName()}");
+        //    if (receivedCard is Follower follower)
+        //        handledBy = follower;
+        //}
 
 
         protected override void TriggerActionsOnSnap(List<Card> stack)
         {
-            throw new System.NotImplementedException();
+            base.TriggerActionsOnSnap(stack);
+
+            if (stackHolder.Followers.Count == 1)
+                handledBy = stackHolder.Followers[0];
         }
 
         public void AttemptToResolve()
