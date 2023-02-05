@@ -96,7 +96,7 @@ namespace Assets.Sources.Entities
         /// <summary>
         /// La première carte de la liste retournée sera la carte actuelle
         /// </summary>
-        private List<Card> GetNextCardsInStack()
+        public List<Card> GetNextCardsInStack()
         {
             var stack = new List<Card> { this };
             if (NextCardInStack == null)

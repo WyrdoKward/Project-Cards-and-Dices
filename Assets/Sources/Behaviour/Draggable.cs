@@ -119,16 +119,20 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
 
 
         Debug.Log($"{GetComponent<Card>().GetName()} receiving : {droppedCard.GetName()}");
-        //Snapping UI
+
         var targetPosition = GetComponent<RectTransform>().anchoredPosition;
-        targetPosition.y -= 70 * GetComponent<RectTransform>().localScale.y;
-        eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = targetPosition;
+        var baseSortingOrder = GetComponentInParent<Canvas>().sortingOrder;
 
-        //TODO Il faut aussi déplacer les NextCards du stack sinon elles restent liées dans le code mais pas forcément sur l'UI
-
-        //Put dragged card on top
-        eventData.pointerDrag.GetComponentInParent<Canvas>().sortingOrder = GetComponentInParent<Canvas>().sortingOrder + 1;
-        eventData.pointerDrag.GetComponent<Draggable>().isBeeingDragged = false;
+        foreach (var cardGO in droppedCard.GetNextCardsInStack().Select(c => c.gameObject))
+        {
+            ////Snapping UI
+            targetPosition.y -= 70 * GetComponent<RectTransform>().localScale.y;
+            cardGO.GetComponent<RectTransform>().anchoredPosition = targetPosition;
+            //Put dragged card on top
+            baseSortingOrder += 1;
+            cardGO.GetComponentInParent<Canvas>().sortingOrder = baseSortingOrder;
+            cardGO.GetComponent<Draggable>().isBeeingDragged = false;
+        }
 
         //Buisiness on snapping
         targetCard.SnapOnIt(eventData.pointerDrag);
