@@ -4,7 +4,7 @@ namespace Assets.Sources
 {
     public static class GlobalVariables
     {
-        public static readonly int DefaultCardSortingLayer = 0;
+        public static readonly int DefaultCardSortingLayer = 0; //Default layer for a card just laying on the table
         public static readonly int OnDragCardSortingLayer = 99; //Allows to put the current dragged card above everything else
 
         private static float cardElementsScaleInt = 0.42552f;

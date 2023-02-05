@@ -1,6 +1,7 @@
 using Assets.Sources;
 using Assets.Sources.Entities;
 using Assets.Sources.Providers;
+using Assets.Sources.Tools;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -77,21 +78,29 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
     //protected virtual void OnEndDrag(PointerEventData eventData)
     void IEndDragHandler.OnEndDrag(PointerEventData eventData)
     {
-        //Debug.Log("OnEndDrag base");
-
         //Si elle était ReceivedCard d'un autre carte il faut l'enlever
         if (lastCardThisWasSnappedOnto != null)
         {
             lastCardThisWasSnappedOnto.GetComponentInChildren<Card>().SnapOutOfIt(false);
         }
 
-        canvasGroup.alpha = 1;
-        canvasGroup.blocksRaycasts = true;
-        if (isBeeingDragged)
-            GetComponentInParent<Canvas>().sortingOrder = GlobalVariables.DefaultCardSortingLayer;
+        //Appliquer les effets d'UI pour cette carte et toutes celles qui lui sont stackées au dessus
+        var sortingOrder = GlobalVariables.DefaultCardSortingLayer;
+        if (eventData.pointerDrag.GetComponent<Card>().PreviousCardInStack != null)
+            sortingOrder = eventData.pointerDrag.GetComponentInParent<Canvas>().sortingOrder;
 
-        isBeeingDragged = false;
-
+        var stack = GetComponent<Card>().GetNextGameObjectsInStack();
+        CardHelper.ApplyToGameObjects(stack, (go, args) =>
+        {
+            Debug.Log($"Apply to {go.GetComponent<Card>().GetName()}, sorting order = {sortingOrder}");
+            go.GetComponent<Draggable>().canvasGroup.alpha = 1;
+            go.GetComponent<Draggable>().canvasGroup.blocksRaycasts = true;
+            //if (go.GetComponent<Draggable>().isBeeingDragged) TODO : A décommenter une fois qu'on a fait CardHelper.ApplyToGameObjects sur OnBeginDrag
+            go.GetComponentInParent<Canvas>().sortingOrder = sortingOrder;
+            go.GetComponent<Draggable>().isBeeingDragged = false;
+            sortingOrder++;
+        },
+        new object[] { sortingOrder, isBeeingDragged })
     }
 
     /// <summary>
@@ -123,7 +132,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
         var targetPosition = GetComponent<RectTransform>().anchoredPosition;
         var baseSortingOrder = GetComponentInParent<Canvas>().sortingOrder;
 
-        foreach (var cardGO in droppedCard.GetNextCardsInStack().Select(c => c.gameObject))
+        foreach (var cardGO in droppedCard.GetNextGameObjectsInStack())
         {
             ////Snapping UI
             targetPosition.y -= 70 * GetComponent<RectTransform>().localScale.y;

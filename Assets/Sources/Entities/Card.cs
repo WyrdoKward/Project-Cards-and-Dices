@@ -107,6 +107,13 @@ namespace Assets.Sources.Entities
             return stack;
         }
 
+        /// <summary>
+        /// Wrapper for GetNextCardsInStack that returns the GO of the cards
+        /// </summary>
+        public List<GameObject> GetNextGameObjectsInStack()
+        {
+            return GetNextCardsInStack().Select(c => c.gameObject).ToList();
+        }
 
         public bool IsInSameStack(Card card)
         {
