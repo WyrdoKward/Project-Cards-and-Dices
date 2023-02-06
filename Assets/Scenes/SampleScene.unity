@@ -343,12 +343,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attachedTimerGuid: 
   cardSO: {fileID: 11400000, guid: 6a2305e31f83f3a49be7bd232ffad128, type: 2}
+  TalkingTime: 10
 --- !u!1001 &229633818
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 410871248}
+    m_TransformParent: {fileID: 399976787}
     m_Modifications:
     - target: {fileID: 1520376300158428889, guid: 7e92315755741584091d006f313e149e, type: 3}
       propertyPath: m_Name
@@ -364,7 +365,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1520376300158428890, guid: 7e92315755741584091d006f313e149e, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1520376300158428890, guid: 7e92315755741584091d006f313e149e, type: 3}
       propertyPath: m_AnchorMax.x
@@ -481,6 +482,7 @@ Transform:
   - {fileID: 2086780997}
   - {fileID: 1037606644}
   - {fileID: 1215276102}
+  - {fileID: 1310965904}
   m_Father: {fileID: 410871248}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -579,7 +581,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 399976787}
-  - {fileID: 1310965904}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

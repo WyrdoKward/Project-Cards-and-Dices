@@ -16,3 +16,4 @@ MonoBehaviour:
   description: A well-manered gentleman
   artwork: {fileID: 21300000, guid: 9d5626ddec12e164eb9dd0c529d60fd5, type: 3}
   isUnique: 0
+  Actions: {fileID: 11400000, guid: b07a250abb98ccc48a382b174657e07f, type: 2}

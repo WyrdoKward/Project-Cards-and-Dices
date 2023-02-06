@@ -28,27 +28,24 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {
         //Debug.Log("OnBeginDrag");
-
-        Lastposition = transform.position;
-
-        canvasGroup.alpha = .6f;
-        canvasGroup.blocksRaycasts = false;
-        GetComponentInParent<Canvas>().sortingOrder = GlobalVariables.OnDragCardSortingLayer;
-        isBeeingDragged = true;
+        var sortingOrderOnDrag = GlobalVariables.OnDragCardSortingLayer;
+        var stack = GetComponent<Card>().GetNextGameObjectsInStack();
+        CardHelper.ApplyToGameObjects(stack, (go, args) =>
+        {
+            //Debug.Log($"Apply to {go.GetComponent<Card>().GetName()}, sorting order = {sortingOrderOnDrag}");
+            go.GetComponent<Draggable>().Lastposition = transform.position;
+            go.GetComponent<Draggable>().canvasGroup.alpha = .6f;
+            go.GetComponent<Draggable>().canvasGroup.blocksRaycasts = false;
+            go.GetComponent<Draggable>().GetComponentInParent<Canvas>().sortingOrder = sortingOrderOnDrag;
+            go.GetComponent<Draggable>().isBeeingDragged = true;
+            sortingOrderOnDrag++;
+        },
+        new object[] { sortingOrderOnDrag });
 
         //on sauvegarde la dernière carte sur laquelle on était snappé
         var thisCardGuid = eventData.pointerDrag.GetComponent<Card>().Guid;
         var allCards = GameObject.Find("_GameManager").GetComponent<CardProvider>().AllCardGameObjectsInGame();
         lastCardThisWasSnappedOnto = allCards.FirstOrDefault(go => go.GetComponentInChildren<Card>().HasReceivedCardWithGuid(thisCardGuid));
-
-        //Inutile ici car c'est le ENdDrag qui détruit le timer au SnapOut
-        //Destruction du Timer slider & function
-        //var draggerCardGuid = eventData.pointerDrag.GetComponent<Card>().Guid.ToString();
-        //var timerToDestroy = GameObject.Find($"TimerSlider_{draggerCardGuid}");
-        //if (timerToDestroy != null)
-        //    Destroy(timerToDestroy);
-        //TimeManager.StopTimerFromMovement(draggerCardGuid);
-
     }
 
     void IDragHandler.OnDrag(PointerEventData eventData)
@@ -90,7 +87,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
             sortingOrder = eventData.pointerDrag.GetComponentInParent<Canvas>().sortingOrder;
 
         var stack = GetComponent<Card>().GetNextGameObjectsInStack();
-        CardHelper.ApplyToGameObjects(stack, (go, args) =>
+        _ = CardHelper.ApplyToGameObjects(stack, (go, args) =>
         {
             Debug.Log($"Apply to {go.GetComponent<Card>().GetName()}, sorting order = {sortingOrder}");
             go.GetComponent<Draggable>().canvasGroup.alpha = 1;
@@ -100,7 +97,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IDropHandler, IBeginDragHa
             go.GetComponent<Draggable>().isBeeingDragged = false;
             sortingOrder++;
         },
-        new object[] { sortingOrder, isBeeingDragged })
+        new object[] { sortingOrder, isBeeingDragged });
     }
 
     /// <summary>
