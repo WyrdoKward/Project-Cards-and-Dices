@@ -13,7 +13,7 @@ namespace Assets.Sources.ScriptableObjects.Actions
         public BaseCardSO CardSO; //La Base class évite la référence circulaire
 
         protected GameObject thisCardBodyGameObject;
-        private Threat _thisCard { get => thisCardBodyGameObject.GetComponentInChildren<Card>() as Threat; }
+        protected Threat _thisCard { get => thisCardBodyGameObject.GetComponentInChildren<Card>() as Threat; }
 
         public GameObject GameManager { get; internal set; }
         public bool IsLoop;

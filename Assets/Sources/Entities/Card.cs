@@ -184,13 +184,24 @@ namespace Assets.Sources.Entities
         /// </summary>
         public virtual void SnapOutOfIt(bool expulseCardOnUI = false)
         {
+            if (NextCardInStack == null)
+                return;
+
             Debug.Log($"{NextCardInStack.GetComponent<Card>().GetName()} snaps out of {GetName()}");
             if (expulseCardOnUI)
                 NextCardInStack.GetComponent<Card>().ReturnToLastPosition();
 
             NextCardInStack.GetComponent<Card>().PreviousCardInStack = null;
             NextCardInStack = null;
+        }
 
+        public void DestroySelf()
+        {
+            //On expulse proprement les cartes attachées
+            SnapOutOfIt(true);
+            if (PreviousCardInStack != null)
+                PreviousCardInStack.GetComponent<Card>().SnapOutOfIt(false);
+            Destroy(transform.parent.gameObject);
         }
 
         #region DEBUG

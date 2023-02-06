@@ -34,8 +34,9 @@ namespace Assets.Sources.ScriptableObjects.Actions
 
         protected override void ConcreteSuccessToPrevent()
         {
-            Destroy(thisCardBodyGameObject.transform.parent.gameObject);
+            //Destroy(thisCardBodyGameObject.transform.parent.gameObject);
             Debug.Log("Portal has been destroyed");
+            _thisCard.DestroySelf();
         }
     }
 }

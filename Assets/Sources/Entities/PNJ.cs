@@ -24,6 +24,13 @@ namespace Assets.Sources.Entities
             return cardSO.name;
         }
 
+        public new void Start()
+        {
+            base.Start();
+            if (cardSO.IsTemporaray)
+                LaunchDelayedActionWithTimer(DestroySelf, cardSO.Duration, null, false);
+        }
+
         /// <summary>
         /// Triggered when this PNJ receives an other card.
         /// </summary>

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Sources.Entities
 {
-    internal class Threat : Card
+    public class Threat : Card
     {
         public ThreatCardSO cardSO;
         public Card handledBy; //remettre à null si le follower part

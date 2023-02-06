@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Assets.Sources.ScriptableObjects.Cards
 {
     [CreateAssetMenu(fileName = "New Threat", menuName = "Card/Threat")]
-    internal class ThreatCardSO : BaseCardSO
+    public class ThreatCardSO : BaseCardSO
     {
         public float ThreatTime;
 

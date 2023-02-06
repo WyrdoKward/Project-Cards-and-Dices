@@ -17,8 +17,8 @@ namespace Assets.Sources.ScriptableObjects.Actions
 
             if (randomResource == null) //Rien à voler, on fait disparaître le voleur et on arrete la boucle avec (return false)
             {
-                //Debug.Log("Nothing to steal, I'll be back !");
-                Destroy(thisCardBodyGameObject.transform.parent.gameObject);
+                Debug.Log("Nothing to steal, I'll be back !");
+                _thisCard.DestroySelf();
                 return false;
             }
 
@@ -35,8 +35,8 @@ namespace Assets.Sources.ScriptableObjects.Actions
 
         protected override void ConcreteSuccessToPrevent()
         {
-            Destroy(thisCardBodyGameObject.transform.parent.gameObject);
             Debug.Log("Thief has been stopped !");
+            _thisCard.DestroySelf();
         }
     }
 }

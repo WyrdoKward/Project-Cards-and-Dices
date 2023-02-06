@@ -8,7 +8,7 @@ namespace Assets.Sources.ScriptableObjects.Actions
         protected override bool ConcreteExecuteThreat()
         {
             Debug.Log("Squeeeek");
-            Destroy(thisCardBodyGameObject.transform.parent.gameObject);
+            _thisCard.DestroySelf();
             return IsLoop;
         }
 
@@ -19,8 +19,8 @@ namespace Assets.Sources.ScriptableObjects.Actions
 
         protected override void ConcreteSuccessToPrevent()
         {
-            Destroy(thisCardBodyGameObject.transform.parent.gameObject);
             Debug.Log("Rat is dead.");
+            _thisCard.DestroySelf();
         }
     }
 }
