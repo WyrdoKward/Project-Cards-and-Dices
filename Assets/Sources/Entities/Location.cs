@@ -1,5 +1,7 @@
 ﻿using Assets.Sources.ScriptableObjects.Cards;
 using Assets.Sources.Systems;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Sources.Entities
@@ -12,6 +14,7 @@ namespace Assets.Sources.Entities
         public float DefaultExplorationTime = 10f;
         public override Color DefaultSliderColor { get => GlobalVariables.LOCATION_DefaultSliderColor; }
 
+        protected override List<Type> AllowedTypes => new() { typeof(Follower) };
 
         public new void Start()
         {
@@ -20,11 +23,23 @@ namespace Assets.Sources.Entities
 
         public override string GetName() => cardSO.name;
 
-        protected override void TriggerActionsOnSnap(Card receivedCard)
+        /// <summary>
+        /// Triggered when this Location receives an other card.
+        /// </summary>
+        /// <returns>True if an action has been executed</returns>
+        protected override bool TriggerActionsOnSnap(List<Card> stack)
         {
-            //Debug.Log($"{cardSO.name} received {receivedCard.GetName()}");
-            if (receivedCard is Follower follower)
-                Explore(follower);
+            if (!base.TriggerActionsOnSnap(stack))
+                return false;
+
+            //Execute actions on Location here
+            if (stackHolder.Followers.Count == 1)
+            {
+                Explore(stackHolder.Followers[0]);
+                return true;
+            }
+
+            return false;
         }
 
         private void Explore(Follower follower)
@@ -47,8 +62,8 @@ namespace Assets.Sources.Entities
             gameManager.GetComponent<CardSpawner>().GenerateRandomCardFromList(cardSO.Loot);
 
             //TODO ejecter receivedCard
-            if (Receivedcard != null)
-                Receivedcard.GetComponent<Card>().ReturnToLastPosition();
+            if (NextCardInStack != null)
+                NextCardInStack.GetComponent<Card>().ReturnToLastPosition();
         }
 
         public override void SnapOutOfIt(bool expulseCardOnUI = false)
@@ -60,6 +75,11 @@ namespace Assets.Sources.Entities
         public override Color ComputeSpecificSliderColor()
         {
             return DefaultSliderColor;
+        }
+
+        public override BaseCardSO GetCardSO()
+        {
+            return cardSO;
         }
     }
 }

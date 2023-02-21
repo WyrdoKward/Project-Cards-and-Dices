@@ -11,12 +11,12 @@ namespace Assets.Sources.ScriptableObjects.Actions
     public abstract class ThreatOutcomeSO : ScriptableObject
     {
         public BaseCardSO CardSO; //La Base class évite la référence circulaire
-        public bool IsLoop;
 
         protected GameObject thisCardBodyGameObject;
-        private Threat _thisCard { get => thisCardBodyGameObject.GetComponentInChildren<Card>() as Threat; }
+        protected Threat _thisCard { get => thisCardBodyGameObject.GetComponentInChildren<Card>() as Threat; }
 
         public GameObject GameManager { get; internal set; }
+        public bool IsLoop;
 
         internal void SetCardBodyGameObject(GameObject cardBodyGO)
         {
@@ -35,10 +35,18 @@ namespace Assets.Sources.ScriptableObjects.Actions
                 _thisCard.AttemptToResolve();
             else
             {
-                ExecuteThreatBeginningHook();
-                var continueLoop = ConcreteExecuteThreat();
-                ExecuteThreatEndHook(continueLoop);
+                ExecuteThreat();
             }
+        }
+
+        /// <summary>
+        /// Encapsulate ExecuteThreat Hooks
+        /// </summary>
+        private void ExecuteThreat()
+        {
+            ExecuteThreatBeginningHook();
+            var continueLoop = ConcreteExecuteThreat();
+            ExecuteThreatEndHook(continueLoop);
         }
 
         /// <summary>

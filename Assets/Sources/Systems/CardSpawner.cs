@@ -99,15 +99,14 @@ namespace Assets.Sources.Systems
         {
             //Debug.Log($"SpawnCard {cardData.name}");
             var cd = cardPrefab.GetComponentInChildren<CardDisplay>();
-            cd.LoadCardData(cardData);
-            cd.cardSO = cardData;
+            cd.CardSO = cardData;
+            cd.LoadCardData();
 
             var spawedCardGO = Instantiate(cardPrefab, new Vector3(10f, 10f, -10f), Quaternion.identity);
 
             var cardBodyGO = spawedCardGO.GetComponentInChildren<RectTransform>().Find("Card Body").gameObject;
             Destroy(spawedCardGO.GetComponentInChildren<Card>());
             cardData.InitializedCardWithScriptableObject(cardBodyGO);
-
 
             spawedCardGO.name = cardData.name;
             spawedCardGO.transform.SetParent(CardContainerGO.transform, false);

@@ -1,14 +1,17 @@
 ﻿using Assets.Sources.ScriptableObjects.Cards;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Sources.Entities
 {
-    internal class Threat : Card
+    public class Threat : Card
     {
         public ThreatCardSO cardSO;
         public Card handledBy; //remettre à null si le follower part
 
         public override Color DefaultSliderColor { get => GlobalVariables.THREAT_DefaultSliderColor; }
+
+        protected override List<System.Type> AllowedTypes => new() { typeof(Follower) };
 
         public override string GetName()
         {
@@ -22,15 +25,29 @@ namespace Assets.Sources.Entities
             LaunchDelayedActionWithTimer(cardSO.Outcomes.DetermineOutcome, cardSO.ThreatTime, null, false);
         }
 
-        protected override void TriggerActionsOnSnap(Card receivedCard)
+        /// <summary>
+        /// Triggered when this Threat receives an other card.
+        /// </summary>
+        /// <returns>True if an action has been executed</returns>
+        protected override bool TriggerActionsOnSnap(List<Card> stack)
         {
-            //Debug.Log($"{cardSO.name} received {receivedCard.GetName()}");
-            if (receivedCard is Follower follower)
-                handledBy = follower;
+            if (!base.TriggerActionsOnSnap(stack))
+                return false;
+
+            //Execute actions on Threat here
+            if (stackHolder.Followers.Count == 1)
+            {
+                handledBy = stackHolder.Followers[0];
+                return true;
+            }
+
+            return false;
         }
 
         public void AttemptToResolve()
         {
+            //TODO Remplacer le random par le 'test'
+            //TODO A déplacer directemlent dans ThreatOutcomeSO ?
             var rnd = Random.Range(0, 2);
             if (rnd == 0)
                 cardSO.Outcomes.SuccessToPrevent();
@@ -56,6 +73,11 @@ namespace Assets.Sources.Entities
                 return Color.yellow;
 
             return DefaultSliderColor;
+        }
+
+        public override BaseCardSO GetCardSO()
+        {
+            return cardSO;
         }
     }
 }

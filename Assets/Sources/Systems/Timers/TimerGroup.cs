@@ -76,7 +76,7 @@ namespace Assets.Sources.Systems.Timers
             {
                 if (i != 0) continue;
 
-                if (Cards[0].Receivedcard == Cards[i]) // vérifier qu'ils sont attachés sinon si elle a déjà été dispersée elle revenir sur la carte attachée initiale
+                if (Cards[0].NextCardInStack == Cards[i]) // vérifier qu'ils sont attachés sinon si elle a déjà été dispersée elle revenir sur la carte attachée initiale
                     Cards[i].ReturnToLastPosition();
             }
         }

@@ -1,30 +1,46 @@
-﻿using Assets.Sources.Systems;
+﻿using Assets.Sources.Misc;
+using Assets.Sources.ScriptableObjects.Cards;
+using Assets.Sources.Systems;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Assets.Sources.Entities
 {
     /// <summary>
     /// Remove this component form the instanciated prefab to replace it with a children if this entity
     /// </summary>
-    public abstract class Card : MonoBehaviour
+    public abstract class Card : MonoBehaviour, IPointerClickHandler
     {
         /// <summary>
-        /// ATTENTION : Implique qu'on ne gère pas les stacks
+        /// The card above
         /// </summary>
-        internal GameObject Receivedcard;
+        internal GameObject NextCardInStack;
+        /// <summary>
+        /// The card under
+        /// </summary>
+        internal GameObject PreviousCardInStack;
         internal Vector3 scale;
         internal GameObject gameManager;
         internal TimeManager timeManager;
         public string attachedTimerGuid;
 
         protected Color defaultSliderColor;
+        protected StackHolder stackHolder;
+
+        /// <summary>
+        /// Les types de cartes autorisées à stacker sur cette carte
+        /// </summary>
+        protected abstract List<Type> AllowedTypes { get; }
 
         [SerializeField]
         internal Guid Guid { get; private set; }
         public abstract Color DefaultSliderColor { get; }
 
         public abstract string GetName();
+        public abstract BaseCardSO GetCardSO();
         public abstract Color ComputeSpecificSliderColor(); //Passer en virtual si besoin d'une base() commune
 
         internal virtual void Start()
@@ -34,14 +50,81 @@ namespace Assets.Sources.Entities
             timeManager = gameManager.GetComponent<TimeManager>();
             Guid = Guid.NewGuid();
             GetComponent<Draggable>().Lastposition = transform.position;
-            Debug.Log($"Card.Start : {GetName()} at {transform.position}");
         }
 
         /// <summary>
         /// Triggered when this card receives an other card.
         /// </summary>
-        protected abstract void TriggerActionsOnSnap(Card receivedCard);
+        /// <returns>False if no action is to be executed</returns>
+        protected virtual bool TriggerActionsOnSnap(List<Card> stack)
+        {
+            if (stack.Count == 0)
+            {
+                Debug.LogWarning($"Stack vide sur {GetName()}");
+                return false;
+            }
 
+            stackHolder = new StackHolder(stack, AllowedTypes);
+
+            return !stackHolder.HasUselessCards();
+        }
+
+        public List<Card> GetFullStack()
+        {
+            var stack = GetPreviousCardsInStack();
+            stack.RemoveAt(0); // "This" sera ajouté par GetNextCardsInStack
+            stack.Reverse();
+            stack.AddRange(GetNextCardsInStack());
+
+            return stack;
+        }
+
+        /// <summary>
+        /// La carte actuelle sera la dernière carte de la liste retournée
+        /// </summary>
+        private List<Card> GetPreviousCardsInStack()
+        {
+            var stack = new List<Card>() { this };
+            if (PreviousCardInStack == null)
+                return stack;
+
+            stack.AddRange(PreviousCardInStack.GetComponent<Card>().GetPreviousCardsInStack());
+
+            return stack;
+        }
+
+        /// <summary>
+        /// La première carte de la liste retournée sera la carte actuelle
+        /// </summary>
+        public List<Card> GetNextCardsInStack()
+        {
+            var stack = new List<Card> { this };
+            if (NextCardInStack == null)
+                return stack;
+
+            stack.AddRange(NextCardInStack.GetComponent<Card>().GetNextCardsInStack());
+
+            return stack;
+        }
+
+        /// <summary>
+        /// Wrapper for GetNextCardsInStack that returns the GO of the cards
+        /// </summary>
+        public List<GameObject> GetNextGameObjectsInStack()
+        {
+            return GetNextCardsInStack().Select(c => c.gameObject).ToList();
+        }
+
+        public bool IsInSameStack(Card card)
+        {
+            foreach (var c in GetFullStack())
+            {
+                if (c.Guid == card.Guid)
+                    return true;
+            }
+            return false;
+        }
+        //TODO déplacer dans un script dédié à l'UI
         public void ReturnToLastPosition()
         {
             transform.position = GetComponent<Draggable>().Lastposition;
@@ -72,10 +155,10 @@ namespace Assets.Sources.Entities
         /// </summary>
         internal bool HasReceivedCardWithGuid(Guid guid)
         {
-            if (Receivedcard == null)
+            if (NextCardInStack == null)
                 return false;
 
-            return Receivedcard.GetComponentInChildren<Card>().Guid == guid;
+            return NextCardInStack.GetComponentInChildren<Card>().Guid == guid;
         }
 
         /// <summary>
@@ -83,8 +166,17 @@ namespace Assets.Sources.Entities
         /// </summary>
         public virtual void SnapOnIt(GameObject receivedCard)
         {
-            Receivedcard = receivedCard;
-            TriggerActionsOnSnap(receivedCard.GetComponent<Card>());
+            Debug.Log($"{receivedCard.GetComponent<Card>().GetName()} snaps on {GetName()}");
+            // Chain the cards
+            NextCardInStack = receivedCard;
+            receivedCard.GetComponent<Card>().PreviousCardInStack = this.gameObject;
+
+            // Ici il faut déterminer tout le stack
+            var stack = GetFullStack();
+            DebugPrintStack(stack);
+            var firstCardOfStack = stack.FirstOrDefault();
+            stack.RemoveAt(0); //Remove first card for convenience later
+            var hasActionBeenExecuted = firstCardOfStack.TriggerActionsOnSnap(stack);
         }
 
         /// <summary>
@@ -92,10 +184,49 @@ namespace Assets.Sources.Entities
         /// </summary>
         public virtual void SnapOutOfIt(bool expulseCardOnUI = false)
         {
-            if (expulseCardOnUI)
-                Receivedcard.GetComponent<Card>().ReturnToLastPosition();
+            if (NextCardInStack == null)
+                return;
 
-            Receivedcard = null;
+            Debug.Log($"{NextCardInStack.GetComponent<Card>().GetName()} snaps out of {GetName()}");
+            if (expulseCardOnUI)
+                NextCardInStack.GetComponent<Card>().ReturnToLastPosition();
+
+            NextCardInStack.GetComponent<Card>().PreviousCardInStack = null;
+            NextCardInStack = null;
         }
+
+        public void DestroySelf()
+        {
+            //On expulse proprement les cartes attachées
+            SnapOutOfIt(true);
+            if (PreviousCardInStack != null)
+                PreviousCardInStack.GetComponent<Card>().SnapOutOfIt(false);
+            Destroy(transform.parent.gameObject);
+        }
+
+        #region DEBUG
+
+        public void DebugPrintStack(List<Card> stack)
+        {
+            var msg = $"{stack.Count} elements in stack : ";
+            foreach (var c in stack)
+            {
+                msg += c.GetCardSO().name + ", ";
+            }
+            msg = msg.Substring(0, msg.Length - 2);
+            Debug.Log(msg);
+        }
+
+        /// <summary>
+        /// Affiche des infos de débug au clic droit
+        /// </summary>
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (eventData.button == PointerEventData.InputButton.Right)
+            {
+                Debug.Log($"Card Chained : {PreviousCardInStack?.GetComponent<Card>().GetName()} < {GetName()} < {NextCardInStack?.GetComponent<Card>().GetName()}");
+            }
+        }
+        #endregion
     }
 }

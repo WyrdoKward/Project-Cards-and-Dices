@@ -7,29 +7,43 @@ namespace Assets.Sources.UI
 {
     public class CardDisplay : MonoBehaviour
     {
-        public BaseCardSO cardSO;
+        //public BaseCardSO cardSO;
 
         public Text NameText;
         public Text DescriptionText;
         public Image ArtworkImage;
 
-        private Card _thisCard { get => (Card)transform.parent.gameObject.GetComponent("Card"); }
+        private Card _thisCard { get => transform.parent.gameObject.GetComponentInChildren<Card>(); }
+        private BaseCardSO _cardSO;
+        public BaseCardSO CardSO
+        {
+            get
+            {
+                if (_thisCard != null)
+                    return _thisCard.GetCardSO();
+                else
+                    return _cardSO;
+            }
+            set => _cardSO = value;
+        }
+
 
         void Start()
         {
+            //var _cardSO = _thisCard.GetCardSO();
             //Debug.Log("Start");
-            if (cardSO != null)
-                LoadCardData(cardSO);
+            if (CardSO != null)
+                LoadCardData();
             else
                 Debug.Log("cardSO is null");
         }
 
-        public void LoadCardData(BaseCardSO data)
+        public void LoadCardData()
         {
             //Debug.Log($"LoadCardData for {data.name}");
-            NameText.text = data.name;
-            DescriptionText.text = data.description;
-            ArtworkImage.sprite = data.artwork;
+            NameText.text = CardSO.name;
+            DescriptionText.text = CardSO.description;
+            ArtworkImage.sprite = CardSO.artwork;
         }
     }
 }
