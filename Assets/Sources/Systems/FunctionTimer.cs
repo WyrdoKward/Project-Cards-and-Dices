@@ -22,7 +22,7 @@ namespace Assets.Sources.Systems
         /// </summary>
         public static FunctionTimer Create(Action action, float delay, bool hasToStopWhenCardIsMoving, string timerName = "")
         {
-            Debug.Log("Creating " + timerName);
+            //Debug.Log("Creating " + timerName);
             var functionTimer = new FunctionTimer(action, delay, timerName, hasToStopWhenCardIsMoving);
 
             return functionTimer;

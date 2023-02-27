@@ -31,18 +31,26 @@ namespace Assets.Sources.ScriptableObjects.Actions
             if (thisCardBodyGameObject == null)
                 return;
 
-            if (_thisCard.handledBy != null)
-                _thisCard.AttemptToResolve();
-            else
-            {
+            var followerCard = _thisCard.handledBy as Follower;
+            if (followerCard == null)
                 ExecuteThreat();
-            }
+
+            //TODO encapsuler dans un helper qui renvoie juste le winner
+            var handlingCardResult = followerCard.RollCombatDices();
+            var threatResult = _thisCard.RollCombatDices();
+
+            if (handlingCardResult > threatResult)
+                SuccessToPrevent();
+            else if (handlingCardResult < threatResult)
+                FailureToPrevent();
+            else
+                ExecuteThreat();
         }
 
         /// <summary>
         /// Encapsulate ExecuteThreat Hooks
         /// </summary>
-        private void ExecuteThreat()
+        public void ExecuteThreat()
         {
             ExecuteThreatBeginningHook();
             var continueLoop = ConcreteExecuteThreat();

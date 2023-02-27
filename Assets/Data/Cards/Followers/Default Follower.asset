@@ -16,3 +16,5 @@ MonoBehaviour:
   description: I am the default follower
   artwork: {fileID: 21300000, guid: c9f2f7a0abb501149899f7d2e6b27eb4, type: 3}
   isUnique: 1
+  Dices:
+  - {fileID: 11400000, guid: cedb27a009d8fc54887b565edb2fa557, type: 2}

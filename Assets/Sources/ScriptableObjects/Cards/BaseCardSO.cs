@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Sources.ScriptableObjects.Dices;
+using UnityEngine;
 
 namespace Assets.Sources.ScriptableObjects.Cards
 {
@@ -12,7 +13,7 @@ namespace Assets.Sources.ScriptableObjects.Cards
 
         public bool isUnique;
 
-        //public Dice[] dices
+        public BaseDiceSO[] Dices;
 
         public void Print(GameObject gameObject)
         {

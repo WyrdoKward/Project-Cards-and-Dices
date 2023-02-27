@@ -44,17 +44,6 @@ namespace Assets.Sources.Entities
             return false;
         }
 
-        public void AttemptToResolve()
-        {
-            //TODO Remplacer le random par le 'test'
-            //TODO A déplacer directemlent dans ThreatOutcomeSO ?
-            var rnd = Random.Range(0, 2);
-            if (rnd == 0)
-                cardSO.Outcomes.SuccessToPrevent();
-            else
-                cardSO.Outcomes.FailureToPrevent();
-        }
-
         public override void SnapOnIt(GameObject receivedCard)
         {
             base.SnapOnIt(receivedCard);

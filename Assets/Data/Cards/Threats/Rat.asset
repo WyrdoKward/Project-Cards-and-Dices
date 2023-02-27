@@ -16,6 +16,7 @@ MonoBehaviour:
   description: Squeek squeek
   artwork: {fileID: 21300000, guid: a7ae23c839d75484d85edef374181f0d, type: 3}
   isUnique: 0
+  Dices:
+  - {fileID: 11400000, guid: cedb27a009d8fc54887b565edb2fa557, type: 2}
   ThreatTime: 10
-  NegateTime: 1
   Outcomes: {fileID: 11400000, guid: a96c9556f9b3ce14fbeaecb855a54d50, type: 2}

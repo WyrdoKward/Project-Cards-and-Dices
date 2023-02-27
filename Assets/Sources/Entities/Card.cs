@@ -1,5 +1,6 @@
 ﻿using Assets.Sources.Misc;
 using Assets.Sources.ScriptableObjects.Cards;
+using Assets.Sources.ScriptableObjects.Dices;
 using Assets.Sources.Systems;
 using System;
 using System.Collections.Generic;
@@ -173,7 +174,7 @@ namespace Assets.Sources.Entities
 
             // Ici il faut déterminer tout le stack
             var stack = GetFullStack();
-            DebugPrintStack(stack);
+            //DebugPrintStack(stack);
             var firstCardOfStack = stack.FirstOrDefault();
             stack.RemoveAt(0); //Remove first card for convenience later
             var hasActionBeenExecuted = firstCardOfStack.TriggerActionsOnSnap(stack);
@@ -202,6 +203,34 @@ namespace Assets.Sources.Entities
             if (PreviousCardInStack != null)
                 PreviousCardInStack.GetComponent<Card>().SnapOutOfIt(false);
             Destroy(transform.parent.gameObject);
+        }
+
+        //TODO A déplacer ans un script DiceLogic à poser sur le GO ?
+        protected int RollDice<T>()
+        {
+            //T[] dices = cardSO.Dices.Where(d => d is T);//cardSO ?? sera peut être + accessible depuis DiceLogic avec une ref...
+            //Ou alors implémenter directement RollCombatDice() sur Follower.cs
+            return 1;
+        }
+
+        public int RollCombatDices()
+        {
+            BaseCardSO cardSO = null;
+            if (this is Follower f)
+                cardSO = f.cardSO;
+            else if (this is Threat t)
+                cardSO = t.cardSO;
+            else
+                throw new InvalidCastException($"Type of {GetName()} not handled for combat dices.");
+
+            var dicesToRoll = cardSO.Dices.Where(d => d is CombatDiceSO);
+            var res = 0;
+            foreach (var d in dicesToRoll)
+            {
+                res += d.Roll();
+            }
+            Debug.Log($"{GetName()} rolling {dicesToRoll.Count()} dices... => result = {res}");
+            return res;
         }
 
         #region DEBUG
